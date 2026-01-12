@@ -80,13 +80,13 @@ extern int16_t mouse_press_r ;
 
 
 
-extern int16_t rc_receive_state ;//Ò£¿ØÆ÷×´Ì¬ 0ÎªÀëÏß£¬1ÎªÔÚÏß
-extern uint32_t rc_receive_time ;//Ò£¿ØÆ÷½ÓÊÕµ½Êı¾İµÄÊ±¼ä´Á
+extern int16_t rc_receive_state ;//Ò£ï¿½ï¿½ï¿½ï¿½×´Ì¬ 0Îªï¿½ï¿½ï¿½ß£ï¿½1Îªï¿½ï¿½ï¿½ï¿½
+extern uint32_t rc_receive_time ;//Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½İµï¿½Ê±ï¿½ï¿½ï¿½
 
 
 
-extern int16_t yaw_6020_state ;//6020×´Ì¬ 0Îª´íÎó£¬1ÎªÕı³£
-extern int16_t pitch_6020_state ;//6020µç»ú×´Ì¬ 0Îª´íÎó£¬1ÎªÕı³£
+extern int16_t yaw_6020_state ;//6020×´Ì¬ 0Îªï¿½ï¿½ï¿½ï¿½1Îªï¿½ï¿½ï¿½ï¿½
+extern int16_t pitch_6020_state ;//6020ï¿½ï¿½ï¿½×´Ì¬ 0Îªï¿½ï¿½ï¿½ï¿½1Îªï¿½ï¿½ï¿½ï¿½
 
 extern float gimbal_vx ;
 extern float gimbal_vy ;
@@ -184,28 +184,20 @@ extern float pitch_radian_from_bmi088 ;
 extern float yaw_radian_from_bmi088 ;
 extern float roll_radian_from_bmi088 ;
 
-extern bool reset_tracker ;
-
-extern uint8_t tx_buffer[sizeof(auto_aim_tx_packet)];
 
 extern float YAW_IMU_LAST_ECD ;
 extern float YAW_IMU_LAPS ;
 extern float YAW_IMU_ABSCISSA ;
 
-extern float aim_x ;
-extern float aim_y ;
-extern float aim_z ;
-
 
 extern float yaw_imu_preprocess ;
 
+  extern uint8_t uart1_receive_data ;//ä¸²å£å½“å‰æ¥æ”¶å­—èŠ‚
 
-extern struct armor_posture armor[4] ;
+  extern uint32_t auto_aim_com_update_time ;//è‡ªç„é€šè®¯æ—¶é—´æˆ³
 
-extern struct auto_aim_calculation_gimbal_target infantry_auto_aim_target ;
-
-
-extern uint8_t uart1_receive_data ;//´®¿Úµ±Ç°½ÓÊÕ×Ö½Ú
+  extern float auto_aim_los_pitch_angle ;
+  extern float auto_aim_los_yaw_angle ;
 
 /* USER CODE END EC */
 

@@ -1,6 +1,6 @@
 #include "main.h"
 #include "cmsis_os.h"
-
+#include "IMU_DATA_GET.h"
 #include "CAN_receive.h"
 #include "pid.h"
 #include "gimbal_motor_control.h"
@@ -30,14 +30,11 @@ pid_type_def shoot_2006_ID3_speed_pid;
 
         friction_wheel_speed_control();//摩擦轮目标速度控制
         friction_wheel_pid_control();//摩擦轮pid控制
-
-
         yaw_imu_getAbscissa() ;//更新陀螺仪总角度
 
         motor_gimbal_angle_compute();//目标角度控制
         motor_gimbal_pid_compute();//云台pid控制
-
-
+        pid_preprocess();
         shoot_pid_control();//拨弹盘pid控制
 
 
@@ -57,16 +54,43 @@ pid_type_def shoot_2006_ID3_speed_pid;
 }
 
 
-
 void motor_gimbal_angle_compute()
-{
+ {
      if(mouse_vy == 0 & mouse_vx == 0)
      {
+
+
+         if(rc_s1 == 1)
+         {
+             if(auto_aim_rx_packet.distance != (-1.0f))//自瞄开火建议为1的时候才建议进行闭环，否则目标角度是0
+             {
+                 YAW_6020_ID1_GIVEN_ANGLE = auto_aim_rx_packet.yaw ;
+                 PITCH_6020_ID2_GIVEN_ANGLE = auto_aim_rx_packet.pitch ;
+
+                 // auto_aim_los_yaw_angle = YAW_6020_ID1_GIVEN_ANGLE ;
+                 // auto_aim_los_pitch_angle = PITCH_6020_ID2_GIVEN_ANGLE ;
+
+
+             }
+             else//这里写没识别到但是仍然开启自瞄的动作，如仍然遥控器等
+             {
+                 rc_yaw_input_normalization();
+                 //                 YAW_6020_ID1_GIVEN_ANGLE = auto_aim_los_yaw_angle ;
+                 //                 PITCH_6020_ID2_GIVEN_ANGLE = auto_aim_los_pitch_angle ;
+             }
+
+         } else
+         {
+             // rc_yaw_input_normalization();
+         }
+
+
+
          if((PITCH_RC_IN_KP * (float )rc_ch3) < 0 )
          {
-             if(PITCH_6020_ID2_GIVEN_ANGLE < -23.0f )
+             if(PITCH_6020_ID2_GIVEN_ANGLE < -10.0f )
              {
-                 PITCH_6020_ID2_GIVEN_ANGLE = -23.0f ;
+                 PITCH_6020_ID2_GIVEN_ANGLE = -10.0f ;
              }
              else
              {
@@ -75,9 +99,9 @@ void motor_gimbal_angle_compute()
          }
          else
          {
-             if(PITCH_6020_ID2_GIVEN_ANGLE > 25.0f )
+             if(PITCH_6020_ID2_GIVEN_ANGLE > 40.0f )
              {
-                 PITCH_6020_ID2_GIVEN_ANGLE = 25.0f ;
+                 PITCH_6020_ID2_GIVEN_ANGLE = 40.0f ;
              }
              else
              {
@@ -86,40 +110,116 @@ void motor_gimbal_angle_compute()
          }
 
 
-         YAW_6020_ID1_GIVEN_ANGLE = YAW_6020_ID1_GIVEN_ANGLE + (YAW_RC_IN_KP * (float)rc_ch2) ;
 
-     } else//键盘还没写
+
+     } else//鼠标还没写
      {
-//         PITCH_6020_ID2_GIVEN_SPEED = MOUSE_VY_SPEED_SCALING_FACTOR * (float)-mouse_vy - PITCH_OFF_FRICTION_STOP_SPEED_COMPENSATE;
-//         YAW_6020_ID1_GIVEN_SPEED = MOUSE_VX_SPEED_SCALING_FACTOR * (float)-mouse_vx ;
+         //         PITCH_6020_ID2_GIVEN_SPEED = MOUSE_VY_SPEED_SCALING_FACTOR * (float)-mouse_vy - PITCH_OFF_FRICTION_STOP_SPEED_COMPENSATE;
+         //         YAW_6020_ID1_GIVEN_SPEED = MOUSE_VX_SPEED_SCALING_FACTOR * (float)-mouse_vx ;
 
 
      }
 
-}
+ }
 
+// void motor_gimbal_angle_compute()
+// {
+//      if(mouse_vy == 0 & mouse_vx == 0)
+//      {
+//          if((PITCH_RC_IN_KP * (float )rc_ch3) < 0 )
+//          {
+//              if(PITCH_6020_ID2_GIVEN_ANGLE < -23.0f )
+//              {
+//                  PITCH_6020_ID2_GIVEN_ANGLE = -23.0f ;
+//              }
+//              else
+//              {
+//                  PITCH_6020_ID2_GIVEN_ANGLE = PITCH_6020_ID2_GIVEN_ANGLE + PITCH_RC_IN_KP * (float )rc_ch3  ;
+//              }
+//          }
+//          else
+//          {
+//              if(PITCH_6020_ID2_GIVEN_ANGLE > 25.0f )
+//              {
+//                  PITCH_6020_ID2_GIVEN_ANGLE = 25.0f ;
+//              }
+//              else
+//              {
+//                  PITCH_6020_ID2_GIVEN_ANGLE = PITCH_6020_ID2_GIVEN_ANGLE + PITCH_RC_IN_KP * (float )rc_ch3  ;
+//              }
+//          }
+//
+//
+//          YAW_6020_ID1_GIVEN_ANGLE = YAW_6020_ID1_GIVEN_ANGLE + (YAW_RC_IN_KP * (float)rc_ch2) ;
+//
+//      } else//键盘还没写
+//      {
+// //         PITCH_6020_ID2_GIVEN_SPEED = MOUSE_VY_SPEED_SCALING_FACTOR * (float)-mouse_vy - PITCH_OFF_FRICTION_STOP_SPEED_COMPENSATE;
+// //         YAW_6020_ID1_GIVEN_SPEED = MOUSE_VX_SPEED_SCALING_FACTOR * (float)-mouse_vx ;
+//
+//
+//      }
+//
+// }
 
-void yaw_imu_getAbscissa()
-{
-    if((YAW_IMU_LAST_ECD - yaw_angle_from_bmi088) > 180.0f)
-    {
-
-        YAW_IMU_LAPS++ ;
-
-    }
-    if((yaw_angle_from_bmi088 - YAW_IMU_LAST_ECD) > 180.0f)
-    {
-
-        YAW_IMU_LAPS-- ;
-
-    }
-
-    YAW_IMU_LAST_ECD = yaw_angle_from_bmi088 ;
-
-    YAW_IMU_ABSCISSA = 360.0f * YAW_IMU_LAPS + yaw_angle_from_bmi088 ;
-
-
-}
+//
+// void yaw_imu_getAbscissa()
+// {
+//     if((YAW_IMU_LAST_ECD - yaw_angle_from_bmi088) > 180.0f)
+//     {
+//
+//         YAW_IMU_LAPS++ ;
+//
+//     }
+//     if((yaw_angle_from_bmi088 - YAW_IMU_LAST_ECD) > 180.0f)
+//     {
+//
+//         YAW_IMU_LAPS-- ;
+//
+//     }
+//
+//     YAW_IMU_LAST_ECD = yaw_angle_from_bmi088 ;
+//
+//     YAW_IMU_ABSCISSA = 360.0f * YAW_IMU_LAPS + yaw_angle_from_bmi088 ;
+//
+//
+// }
+//
+//
+// void rc_yaw_input_normalization()
+//  {
+//      float YAW_GIVEN_ANGLE_COMPUTE = YAW_6020_ID1_GIVEN_ANGLE + (YAW_RC_IN_KP * (float)rc_ch2) ;
+//
+//      if(YAW_GIVEN_ANGLE_COMPUTE > 180.0f)
+//      {
+//          YAW_6020_ID1_GIVEN_ANGLE =  YAW_GIVEN_ANGLE_COMPUTE - 360.0f ;
+//      }
+//      else if(YAW_GIVEN_ANGLE_COMPUTE < -180.0f)
+//      {
+//          YAW_6020_ID1_GIVEN_ANGLE =  YAW_GIVEN_ANGLE_COMPUTE + 360.0f ;
+//      } else
+//      {
+//          YAW_6020_ID1_GIVEN_ANGLE =  YAW_GIVEN_ANGLE_COMPUTE ;
+//      }
+//  }
+//
+//
+// void pid_preprocess()
+//  {
+//      if((YAW_6020_ID1_GIVEN_ANGLE - yaw_angle_from_bmi088) < -180.0f )
+//      {
+//          yaw_imu_preprocess = yaw_angle_from_bmi088 - 360.0f ;
+//      }
+//      else if((YAW_6020_ID1_GIVEN_ANGLE - yaw_angle_from_bmi088) > 180.0f )
+//      {
+//          yaw_imu_preprocess = yaw_angle_from_bmi088 + 360.0f ;
+//      }
+//      else
+//      {
+//          yaw_imu_preprocess = yaw_angle_from_bmi088 ;
+//      }
+//  }
+//
 
 
 void motor_gimbal_pid_compute()
@@ -186,7 +286,7 @@ void yaw_angle_pid_init(void)
 
 float yaw_angle_pid_loop(float YAW_6020_ID1_angle_set_loop)
 {
-    PID_calc(&yaw_6020_ID1_angle_pid, YAW_IMU_ABSCISSA , YAW_6020_ID1_angle_set_loop);
+    PID_calc(&yaw_6020_ID1_angle_pid, yaw_imu_preprocess , YAW_6020_ID1_angle_set_loop);
     float yaw_6020_ID1_given_speed_loop = (float)(yaw_6020_ID1_angle_pid.out);
 
     return yaw_6020_ID1_given_speed_loop ;

@@ -76,7 +76,7 @@
 #define FRICTION_WHEEL_3510_ID2_SPEED_PID_KI_MAX    5000.0f
 
 
-#define FRICTION_WHEEL_SHOOT_SPEED 6500
+#define FRICTION_WHEEL_SHOOT_SPEED 1000//6500
 
 #define GIMBAL_PID_COMPUTE_FREQUENCY 1000  // Hz
 
@@ -107,7 +107,8 @@ extern pid_type_def friction_wheel_3510_ID2_speed_pid;
 
 extern pid_type_def shoot_2006_ID3_speed_pid;
 
-
+void pid_preprocess();
+void rc_yaw_input_normalization();
 
 void yaw_imu_getAbscissa();//YAW????
 void motor_gimbal_angle_compute();//????
