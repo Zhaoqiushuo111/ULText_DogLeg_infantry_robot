@@ -123,3 +123,5 @@
 107	229	7898377527234489	ULText_DogLeg_infantry_robot.elf	92783ef304d7ceb
 3	136	7898378344641441	CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/uart_sent.c.obj	a1b2a4ab62a7426c
 137	321	7898378345976291	ULText_DogLeg_infantry_robot.elf	92783ef304d7ceb
+6	348	7898957754974181	CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/gimbal_motor_control.c.obj	31dded2e565a0efc
+349	855	7898957758396719	ULText_DogLeg_infantry_robot.elf	92783ef304d7ceb

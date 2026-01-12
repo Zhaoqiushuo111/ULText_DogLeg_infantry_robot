@@ -162,64 +162,64 @@ void motor_gimbal_angle_compute()
 //
 // }
 
-//
-// void yaw_imu_getAbscissa()
-// {
-//     if((YAW_IMU_LAST_ECD - yaw_angle_from_bmi088) > 180.0f)
-//     {
-//
-//         YAW_IMU_LAPS++ ;
-//
-//     }
-//     if((yaw_angle_from_bmi088 - YAW_IMU_LAST_ECD) > 180.0f)
-//     {
-//
-//         YAW_IMU_LAPS-- ;
-//
-//     }
-//
-//     YAW_IMU_LAST_ECD = yaw_angle_from_bmi088 ;
-//
-//     YAW_IMU_ABSCISSA = 360.0f * YAW_IMU_LAPS + yaw_angle_from_bmi088 ;
-//
-//
-// }
-//
-//
-// void rc_yaw_input_normalization()
-//  {
-//      float YAW_GIVEN_ANGLE_COMPUTE = YAW_6020_ID1_GIVEN_ANGLE + (YAW_RC_IN_KP * (float)rc_ch2) ;
-//
-//      if(YAW_GIVEN_ANGLE_COMPUTE > 180.0f)
-//      {
-//          YAW_6020_ID1_GIVEN_ANGLE =  YAW_GIVEN_ANGLE_COMPUTE - 360.0f ;
-//      }
-//      else if(YAW_GIVEN_ANGLE_COMPUTE < -180.0f)
-//      {
-//          YAW_6020_ID1_GIVEN_ANGLE =  YAW_GIVEN_ANGLE_COMPUTE + 360.0f ;
-//      } else
-//      {
-//          YAW_6020_ID1_GIVEN_ANGLE =  YAW_GIVEN_ANGLE_COMPUTE ;
-//      }
-//  }
-//
-//
-// void pid_preprocess()
-//  {
-//      if((YAW_6020_ID1_GIVEN_ANGLE - yaw_angle_from_bmi088) < -180.0f )
-//      {
-//          yaw_imu_preprocess = yaw_angle_from_bmi088 - 360.0f ;
-//      }
-//      else if((YAW_6020_ID1_GIVEN_ANGLE - yaw_angle_from_bmi088) > 180.0f )
-//      {
-//          yaw_imu_preprocess = yaw_angle_from_bmi088 + 360.0f ;
-//      }
-//      else
-//      {
-//          yaw_imu_preprocess = yaw_angle_from_bmi088 ;
-//      }
-//  }
-//
+
+void yaw_imu_getAbscissa()
+{
+    if((YAW_IMU_LAST_ECD - yaw_angle_from_bmi088) > 180.0f)
+    {
+
+        YAW_IMU_LAPS++ ;
+
+    }
+    if((yaw_angle_from_bmi088 - YAW_IMU_LAST_ECD) > 180.0f)
+    {
+
+        YAW_IMU_LAPS-- ;
+
+    }
+
+    YAW_IMU_LAST_ECD = yaw_angle_from_bmi088 ;
+
+    YAW_IMU_ABSCISSA = 360.0f * YAW_IMU_LAPS + yaw_angle_from_bmi088 ;
+
+
+}
+
+
+void rc_yaw_input_normalization()
+ {
+     float YAW_GIVEN_ANGLE_COMPUTE = YAW_6020_ID1_GIVEN_ANGLE + (YAW_RC_IN_KP * (float)rc_ch2) ;
+
+     if(YAW_GIVEN_ANGLE_COMPUTE > 180.0f)
+     {
+         YAW_6020_ID1_GIVEN_ANGLE =  YAW_GIVEN_ANGLE_COMPUTE - 360.0f ;
+     }
+     else if(YAW_GIVEN_ANGLE_COMPUTE < -180.0f)
+     {
+         YAW_6020_ID1_GIVEN_ANGLE =  YAW_GIVEN_ANGLE_COMPUTE + 360.0f ;
+     } else
+     {
+         YAW_6020_ID1_GIVEN_ANGLE =  YAW_GIVEN_ANGLE_COMPUTE ;
+     }
+ }
+
+
+void pid_preprocess()
+ {
+     if((YAW_6020_ID1_GIVEN_ANGLE - yaw_angle_from_bmi088) < -180.0f )
+     {
+         yaw_imu_preprocess = yaw_angle_from_bmi088 - 360.0f ;
+     }
+     else if((YAW_6020_ID1_GIVEN_ANGLE - yaw_angle_from_bmi088) > 180.0f )
+     {
+         yaw_imu_preprocess = yaw_angle_from_bmi088 + 360.0f ;
+     }
+     else
+     {
+         yaw_imu_preprocess = yaw_angle_from_bmi088 ;
+     }
+ }
+
 
 
 void motor_gimbal_pid_compute()
