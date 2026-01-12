@@ -30,7 +30,7 @@ pid_type_def shoot_2006_ID3_speed_pid;
 
         friction_wheel_speed_control();//摩擦轮目标速度控制
         friction_wheel_pid_control();//摩擦轮pid控制
-        yaw_imu_getAbscissa() ;//更新陀螺仪总角度
+       // yaw_imu_getAbscissa() ;//更新陀螺仪总角度
 
         motor_gimbal_angle_compute();//目标角度控制
         motor_gimbal_pid_compute();//云台pid控制
@@ -81,7 +81,7 @@ void motor_gimbal_angle_compute()
 
          } else
          {
-             // rc_yaw_input_normalization();
+              rc_yaw_input_normalization();
          }
 
 
@@ -201,8 +201,30 @@ void rc_yaw_input_normalization()
      {
          YAW_6020_ID1_GIVEN_ANGLE =  YAW_GIVEN_ANGLE_COMPUTE ;
      }
+     // if((YAW_RC_IN_KP * (float)rc_ch2) < 0 )
+     //     {
+     //      if(YAW_6020_ID1_GIVEN_ANGLE < -90.0f )
+     //      {
+     //         YAW_6020_ID1_GIVEN_ANGLE = -90.0f ;
+     //      }
+     //     else
+     //         {
+     //         YAW_6020_ID1_GIVEN_ANGLE = YAW_6020_ID1_GIVEN_ANGLE + YAW_RC_IN_KP * (float)rc_ch2  ;
+     //         }
+     //     }
+     // else
+     // {
+     //     if(YAW_6020_ID1_GIVEN_ANGLE > 90.0f )
+     //     {
+     //         YAW_6020_ID1_GIVEN_ANGLE = 90.0f ;
+     //     }
+     //     else
+     //     {
+     //         YAW_6020_ID1_GIVEN_ANGLE = YAW_6020_ID1_GIVEN_ANGLE + YAW_RC_IN_KP * (float)rc_ch2  ;
+     //     }  ;
+     //
+     // }
  }
-
 
 void pid_preprocess()
  {

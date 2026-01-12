@@ -30,7 +30,7 @@ void uart_sent_debug()
         //               xiaomimotors[0].give_tor);
         usart6_printf("%f,%f,%d,%f,%f \r\n",
        YAW_6020_ID1_GIVEN_SPEED,
-       auto_aim_rx_packet.yaw ,
+       auto_aim_rx_packet.distance ,
         YAW_6020_ID1_GIVEN_CURRENT,
         YAW_6020_ID1_GIVEN_ANGLE,
         yaw_angle_from_bmi088

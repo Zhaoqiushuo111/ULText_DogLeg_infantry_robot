@@ -29,17 +29,17 @@
 #include <math.h>
 
 
-#define YAW_6020_ID2_ANGLE_PID_KP        0.5f//0.3
+#define YAW_6020_ID2_ANGLE_PID_KP        0.4f//0.3
 #define YAW_6020_ID2_ANGLE_PID_KI        0.0f//0.0
-#define YAW_6020_ID2_ANGLE_PID_KD        3.0f//2.0
-#define YAW_6020_ID2_ANGLE_PID_OUT_MAX   30.0f
+#define YAW_6020_ID2_ANGLE_PID_KD        0.0f//2.0
+#define YAW_6020_ID2_ANGLE_PID_OUT_MAX   5.0f
 #define YAW_6020_ID2_ANGLE_PID_KI_MAX    0.0f
 
-#define YAW_6020_ID2_SPEED_PID_KP        8000.0f//13000
+#define YAW_6020_ID2_SPEED_PID_KP        10000.0f//13000
 #define YAW_6020_ID2_SPEED_PID_KI        20.0f//20
 #define YAW_6020_ID2_SPEED_PID_KD        0.0f
 #define YAW_6020_ID2_SPEED_PID_OUT_MAX   30000.0f
-#define YAW_6020_ID2_SPEED_PID_KI_MAX    10000.0f
+#define YAW_6020_ID2_SPEED_PID_KI_MAX    15000.0f
 
 
 
