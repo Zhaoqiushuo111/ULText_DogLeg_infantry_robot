@@ -73,6 +73,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
         // 首先检查是否是标准ID消息（接收函数2的逻辑）
         switch (can1_rx_header.StdId)
         {
+
             case CAN_3508_M1_ID:
             case CAN_3508_M2_ID:
             case CAN_3508_M3_ID:
@@ -86,12 +87,11 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
                 get_motor_measure(&motor_can1_data[i], can1_rx_data);
                 break;
             }
-            case CAN_DM_IMU:
-            {
-              IMU_UpdateData(can1_rx_data);
-              break
-                    ;
-            }
+            // case CAN_DM_IMU:
+            // {
+            //     IMU_UpdateData(can1_rx_data);
+            //     break;
+            // }
             default:
             {
                 // 如果不是标准ID消息，检查是否是小米电机数据（接收函数1的逻辑）
@@ -207,28 +207,6 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
     }
 }
 
-
-
-// 实现邮箱0的回调
-void HAL_CAN_TxMailbox0CompleteCallback(CAN_HandleTypeDef *hcan)
-{
-    if(hcan == &hcan1)
-    {
-
-    }
-
-}
-
-// 让另外两个邮箱的完成回调也指向同一个函数
-void HAL_CAN_TxMailbox1CompleteCallback(CAN_HandleTypeDef *hcan)
-{
-    HAL_CAN_TxMailbox0CompleteCallback(hcan);
-}
-
-void HAL_CAN_TxMailbox2CompleteCallback(CAN_HandleTypeDef *hcan)
-{
-    HAL_CAN_TxMailbox0CompleteCallback(hcan);
-}
 
 
 
