@@ -201,10 +201,22 @@ float pitch_radian_from_bmi088 ;
 float yaw_radian_from_bmi088 ;
 float roll_radian_from_bmi088 ;
 
+float roll_speed_from_dm;
+float pitch_speed_from_dm;
+float yaw_speed_from_dm;
+
+float yaw_angle_from_dm ;
+float pitch_angle_from_dm;
+float roll_angle_from_dm;
+
 float YAW_IMU_LAST_ECD ;
 float YAW_IMU_LAPS ;
 float YAW_IMU_ABSCISSA ;
 float yaw_imu_preprocess ;
+
+uint16_t YAW_LAST_ECD;
+float YAW_LAPS;
+uint16_t YAW_FIN_ECD;
 
 uint8_t uart1_receive_data ;//串口当前接收字节
 
@@ -215,6 +227,10 @@ float auto_aim_los_yaw_angle ;
 
 uint8_t uart1_receive_data ;//串口当前接收字节
 
+float xiaomi_can1_id1_given_angle;
+float xiaomi_can1_id2_given_angle;
+float xiaomi_can1_id1_given_speed;
+float xiaomi_can1_id2_given_speed;
 
 /* USER CODE END PTD */
 
@@ -355,10 +371,10 @@ int main(void)
     //拨弹盘电机初始化
     shoot_2006_id3_speed_pid_init();//拨弹盘id3速度环初始化
 
-    xiaomi_can2_id1_speed_pid_init();//机械臂关节can2_id1电机初始化
-    xiaomi_can2_id2_speed_pid_init();//机械臂关节can2_id2电机初始化
-
-
+    xiaomi_can1_id1_speed_pid_init();//机械臂关节can2_id1电机初始化
+    xiaomi_can1_id2_speed_pid_init();//机械臂关节can2_id2电机初始化
+    xiaomi_can1_id1_angle_pid_init();
+    xiaomi_can1_id2_angle_pid_init();
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in cmsis_os2.c) */

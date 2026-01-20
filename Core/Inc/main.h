@@ -184,10 +184,21 @@ extern float pitch_radian_from_bmi088 ;
 extern float yaw_radian_from_bmi088 ;
 extern float roll_radian_from_bmi088 ;
 
+ extern float roll_speed_from_dm;
+ extern float pitch_speed_from_dm;
+ extern float yaw_speed_from_dm;
+
+ extern float yaw_angle_from_dm ;
+ extern float pitch_angle_from_dm;
+ extern float roll_angle_from_dm;
 
 extern float YAW_IMU_LAST_ECD ;
 extern float YAW_IMU_LAPS ;
 extern float YAW_IMU_ABSCISSA ;
+
+    extern uint16_t YAW_LAST_ECD;
+ extern float YAW_LAPS;
+ extern uint16_t YAW_FIN_ECD;
 
 
 extern float yaw_imu_preprocess ;
@@ -199,6 +210,10 @@ extern float yaw_imu_preprocess ;
   extern float auto_aim_los_pitch_angle ;
   extern float auto_aim_los_yaw_angle ;
 
+   extern float xiaomi_can1_id1_given_angle;
+   extern float xiaomi_can1_id2_given_angle;
+   extern float xiaomi_can1_id1_given_speed;
+   extern float xiaomi_can1_id2_given_speed;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/

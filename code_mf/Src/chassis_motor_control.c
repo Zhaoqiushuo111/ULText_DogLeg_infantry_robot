@@ -2,12 +2,12 @@
 // Created by 111 on 2025/12/22.
 //
 
-#include "chassis_motor_control.h"
-#include "cmsis_os.h"
 #include "main.h"
-#include "remote_control.h"
+#include "cmsis_os.h"
+#include <stdio.h>
 #include "CAN_receive.h"
 #include "pid.h"
+#include "chassis_motor_control.h"
 #include <math.h>
 
 pid_type_def chassis_3508_ID1_speed_pid;
@@ -18,11 +18,15 @@ pid_type_def chassis_3508_ID4_speed_pid;
 pid_type_def chassis_follow_gimbal_pid;
 
 
-void chassis_motor_control() {
 
-    while (1) {
-
-        chassis_speed_compute();//底盘速度解算
+void chassis_motor_control()
+{
+    while (1)
+    {
+        //CHASSIS_FOLLOW_GIMBAL_GIVEN_SPEED = chassis_follow_gimbal_pid_loop(YAW_MID_ECD);//底盘跟随
+        rc_to_gimbal_speed_compute();//遥控器转换为云台速度
+        yaw_ecd_angle_to_radian();
+        gimbal_to_chassis_speed_compute();//底盘速度解算
         chassis_settlement();//轮系速度解算
         motor_chassis_pid_compute();//pid速度
 
@@ -36,33 +40,88 @@ void chassis_motor_control() {
 
 #endif
 
-
-
-
-        osDelay(10);
     }
-
-
 }
 
 void rc_to_gimbal_speed_compute()
 {
+    if( key_W == 1 & key_S == 1 )
+    {
+        gimbal_vy = 0 ;
+    }
+    else if( key_W == 1 & key_S == 0 )
+    {
+        gimbal_vy = ( 0.25f * ( robot_max_power - TOP_GIVE_MIN_SPEED ) ) ;
+    }
+    else if( key_W == 0 & key_S == 1 )
+    {
+        gimbal_vy = -( 0.25f * ( robot_max_power - TOP_GIVE_MIN_SPEED ) ) ;
+    }
+    else
+    {
+        //gimbal_vy = (float)(4 * rc_ch1 ) ;
+    }
 
-        gimbal_vy = (float)(4 * rc_ch1 ) ;
-        gimbal_vx = (float)(4 * rc_ch0 ) ;
 
+    if( key_A == 1 & key_D == 1 )
+    {
+        gimbal_vx = 0 ;
+    }
+    else if( key_A == 1 & key_D == 0 )
+    {
+        gimbal_vx = -( 0.25f * ( robot_max_power - TOP_GIVE_MIN_SPEED ) ) ;
+    }
+    else if( key_A == 0 & key_D == 1 )
+    {
+        gimbal_vx = ( 0.25f * ( robot_max_power - TOP_GIVE_MIN_SPEED ) ) ;
+    }
+    else
+    {
+       // gimbal_vx = (float)(4 * rc_ch0 ) ;
+    }
+
+
+    if( (HAL_GetTick() - gyro_time) > KEY_CHECK_MIN_TIME )
+    {
+        if(key_Q == 1)
+        {
+            gyro_time = HAL_GetTick() ;
+            gyro_state++ ;
+        }
+    }
+
+
+
+
+
+}
+
+void yaw_ecd_angle_to_radian()
+{
+    yaw_angle_difference = (float)(motor_can1_data[4].ecd - YAW_MID_ECD) / (float)(8192 / 360.0f);
+
+    // 限制角度在 [-180, 180] 范围内
+    while (yaw_angle_difference > 180.0f) {
+        yaw_angle_difference -= 360.0f;
+    }
+    while (yaw_angle_difference < -180.0f) {
+        yaw_angle_difference += 360.0f;
+    }
+
+    yaw_radian_difference = (float)yaw_angle_difference * (float)(M_PI / 180);
 }
 
 
 
-void chassis_speed_compute()
+void gimbal_to_chassis_speed_compute()
 {
-     chassis_vx = rc_ch0*5.0f;
-     chassis_vy = rc_ch1*5.8f;//上限11.8f
-//     chassis_vround = rc_ch0*5.0f;
-    // chassis_vx = gimbal_vx * (float)cos((double)yaw_radian_difference) - gimbal_vy * (float)sin((double)yaw_radian_difference);
-    // chassis_vy = gimbal_vx * (float)sin((double)yaw_radian_difference) + gimbal_vy * (float)cos((double)yaw_radian_difference);
- }
+    chassis_vx = gimbal_vx * (float)cos((double)yaw_radian_difference) - gimbal_vy * (float)sin((double)yaw_radian_difference);
+    chassis_vy = gimbal_vx * (float)sin((double)yaw_radian_difference) + gimbal_vy * (float)cos((double)yaw_radian_difference);
+
+
+
+}
+
 
 
 
@@ -76,7 +135,59 @@ void chassis_settlement()
     CHASSIS_3508_ID3_VXY_COMPUTE_SPEED = (int16_t)(chassis_vy - chassis_vx ) ;
     CHASSIS_3508_ID4_VXY_COMPUTE_SPEED = (int16_t)(-chassis_vy - chassis_vx ) ;
 
+    //计算总功率
+    CHASSIS_3508_ALL_COMPUTE_SPEED =
+            fabsf((float)CHASSIS_3508_ID1_VXY_COMPUTE_SPEED) +
+            fabsf((float)CHASSIS_3508_ID2_VXY_COMPUTE_SPEED) +
+            fabsf((float)CHASSIS_3508_ID3_VXY_COMPUTE_SPEED) +
+            fabsf((float)CHASSIS_3508_ID4_VXY_COMPUTE_SPEED) ;
 
+    beyond_power = ( CHASSIS_3508_ALL_COMPUTE_SPEED - (float)robot_max_power ) ;//计算超出总功率,大于0为超功率
+
+    if(beyond_power < 0 )
+    {
+        chassis_power_state = 0 ;
+        //说明有剩余功率可用
+        //将剩余功率赋值给小陀螺
+        //vround_compute
+
+        if (rc_s0 == 1)
+        {
+            chassis_vround = 0.25f * beyond_power ;
+        } else if(rc_s0 == 3)
+        {
+
+            if((YAW_LAST_ECD - motor_can1_data[4].ecd) > 4096)
+            {
+
+                YAW_LAPS++ ;
+
+            }
+            if((motor_can1_data[4].ecd - YAW_LAST_ECD) > 4096)
+            {
+
+                YAW_LAPS-- ;
+
+            }
+
+            YAW_LAST_ECD = motor_can1_data[4].ecd ;
+
+            YAW_FIN_ECD = 8192 * YAW_LAPS + motor_can1_data[4].ecd ;
+            CHASSIS_FOLLOW_GIMBAL_GIVEN_SPEED = chassis_follow_gimbal_pid_loop(YAW_MID_ECD);//底盘跟随
+            chassis_vround = 2.0f*CHASSIS_FOLLOW_GIMBAL_GIVEN_SPEED ;
+
+        } else
+        {
+            chassis_vround = 0 ;
+        }
+
+
+    }
+    else
+    {
+        chassis_vround = 0 ;
+        chassis_power_state = 1 ;
+    }
 
     CHASSIS_3508_ID1_GIVEN_SPEED = (int16_t)((float)CHASSIS_3508_ID1_VXY_COMPUTE_SPEED + chassis_vround ) ;
     CHASSIS_3508_ID2_GIVEN_SPEED = (int16_t)((float)CHASSIS_3508_ID2_VXY_COMPUTE_SPEED + chassis_vround ) ;
@@ -84,14 +195,17 @@ void chassis_settlement()
     CHASSIS_3508_ID4_GIVEN_SPEED = (int16_t)((float)CHASSIS_3508_ID4_VXY_COMPUTE_SPEED + chassis_vround ) ;
 
 
-    CHASSIS_FOLLOW_GIMBAL_GIVEN_SPEED = chassis_follow_gimbal_pid_loop(YAW_MID_ECD);//底盘跟随
-    chassis_vround = CHASSIS_FOLLOW_GIMBAL_GIVEN_SPEED ;
 
-    // send_out_all_speed =
-    //         fabsf((float)CHASSIS_3508_ID1_GIVEN_SPEED) +
-    //         fabsf((float)CHASSIS_3508_ID2_GIVEN_SPEED) +
-    //         fabsf((float)CHASSIS_3508_ID3_GIVEN_SPEED) +
-    //         fabsf((float)CHASSIS_3508_ID4_GIVEN_SPEED) ;
+
+
+
+
+
+    send_out_all_speed =
+            fabsf((float)CHASSIS_3508_ID1_GIVEN_SPEED) +
+            fabsf((float)CHASSIS_3508_ID2_GIVEN_SPEED) +
+            fabsf((float)CHASSIS_3508_ID3_GIVEN_SPEED) +
+            fabsf((float)CHASSIS_3508_ID4_GIVEN_SPEED) ;
 
 
 }
@@ -196,11 +310,13 @@ void chassis_follow_gimbal_angle_pid_init(void)
 
 float chassis_follow_gimbal_pid_loop(float PITCH_6020_ID2_angle_set_loop)
 {
-    PID_calc(&chassis_follow_gimbal_pid, motor_can1_data[4].ecd , PITCH_6020_ID2_angle_set_loop);
+    PID_calc(&chassis_follow_gimbal_pid, YAW_FIN_ECD , PITCH_6020_ID2_angle_set_loop);
     float chassis_follow_gimbal_angle_loop = (float)(chassis_follow_gimbal_pid.out);
 
     return chassis_follow_gimbal_angle_loop ;
 
 }
+
+
 
 

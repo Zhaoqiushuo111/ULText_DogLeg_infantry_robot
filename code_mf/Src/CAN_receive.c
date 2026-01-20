@@ -21,7 +21,7 @@
 #include "main.h"
 #include "gimbal_motor_control.h"
 #include "can_comm.h"
-
+#include "DM_IMU.h"
 
 extern CAN_HandleTypeDef hcan1;
 extern CAN_HandleTypeDef hcan2;
@@ -86,6 +86,12 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
                 get_motor_measure(&motor_can1_data[i], can1_rx_data);
                 break;
             }
+            case CAN_DM_IMU:
+            {
+              IMU_UpdateData(can1_rx_data);
+              break
+                    ;
+            }
             default:
             {
                 // 如果不是标准ID消息，检查是否是小米电机数据（接收函数1的逻辑）
@@ -124,6 +130,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
                         * xiaomimotors[can1_rx_data[0] - 0x01].old_fifiltering_speed;
                         break;
                     }
+
                     default:
                         break;
                 }
@@ -199,69 +206,37 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
         }
     }
 }
-//void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
-//{
-//    if(hcan == &hcan1)
-//    {
-//        CAN_RxHeaderTypeDef can1_rx_header;
-//        uint8_t can1_rx_data[8];
-//
-//        HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &can1_rx_header, can1_rx_data);
-//
-//        switch (can1_rx_header.StdId)
-//        {
-//            case CAN_3508_M1_ID:
-//            case CAN_3508_M2_ID:
-//            case CAN_3508_M3_ID:
-//            case CAN_3508_M4_ID:
-//            case CAN_YAW_MOTOR_ID:
-//            case CAN_PIT_MOTOR_ID:
-//            case CAN_TRIGGER_MOTOR_ID:
-//            {
-//                static uint8_t i = 0;
-//                //get motor id
-//                i = can1_rx_header.StdId - CAN_3508_M1_ID;
-//                get_motor_measure(&motor_can1_data[i], can1_rx_data);
-//                break;
-//            }
-//
-//            default:
-//            {
-//                break;
-//            }
-//        }
-//    } else if(hcan == &hcan2)
-//    {
-//        CAN_RxHeaderTypeDef can2_rx_header;
-//        uint8_t can2_rx_data[8];
-//
-//        HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &can2_rx_header, can2_rx_data);
-//
-//        switch (can2_rx_header.StdId)
-//        {
-//            case CAN_3508_M1_ID:
-//            case CAN_3508_M2_ID:
-//            case CAN_3508_M3_ID:
-//            case CAN_3508_M4_ID:
-//            case CAN_YAW_MOTOR_ID:
-//            case CAN_PIT_MOTOR_ID:
-//            case CAN_TRIGGER_MOTOR_ID:
-//            {
-//                static uint8_t i = 0;
-//                //get motor id
-//                i = can2_rx_header.StdId - CAN_3508_M1_ID;
-//                get_motor_measure(&motor_can2_data[i], can2_rx_data); // 注意这里使用了 motor_can2_data 数组
-//                break;
-//            }
-//
-//            default:
-//            {
-//                break;
-//            }
-//        }
-////        pitch_motor_mean_speed_compute();//pitch速度均值滤波 弃用
-//    }
-//}
+
+
+
+// 实现邮箱0的回调
+void HAL_CAN_TxMailbox0CompleteCallback(CAN_HandleTypeDef *hcan)
+{
+    if(hcan == &hcan1)
+    {
+
+    }
+
+}
+
+// 让另外两个邮箱的完成回调也指向同一个函数
+void HAL_CAN_TxMailbox1CompleteCallback(CAN_HandleTypeDef *hcan)
+{
+    HAL_CAN_TxMailbox0CompleteCallback(hcan);
+}
+
+void HAL_CAN_TxMailbox2CompleteCallback(CAN_HandleTypeDef *hcan)
+{
+    HAL_CAN_TxMailbox0CompleteCallback(hcan);
+}
+
+
+
+
+
+
+
+
 void CAN2_cmd_pitch(int16_t pitch, int16_t none0, int16_t none1, int16_t none2)
 {
     uint32_t send_mail_box;

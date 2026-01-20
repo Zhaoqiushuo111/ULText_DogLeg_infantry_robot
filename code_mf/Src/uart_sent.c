@@ -28,12 +28,13 @@ void uart_sent_debug()
         //               xiaomimotors[0].given_speed,
         //               xiaomimotors[0].fifilter_compute_speed,
         //               xiaomimotors[0].give_tor);
-        usart6_printf("%f,%f,%d,%f,%f \r\n",
-       YAW_6020_ID1_GIVEN_SPEED,
-       auto_aim_rx_packet.distance ,
-        YAW_6020_ID1_GIVEN_CURRENT,
-        YAW_6020_ID1_GIVEN_ANGLE,
-        yaw_angle_from_bmi088
+        usart6_printf("%f,%f,%f,%f,%f,%f \r\n",
+       xiaomi_can1_id1_given_angle,
+       xiaomi_can1_id1_given_speed  ,
+        xiaomimotors[0].fifilter_compute_speed,
+        xiaomimotors[0].return_angle,
+        xiaomimotors[0].give_tor,
+       yaw_speed_from_dm
       );
 
 

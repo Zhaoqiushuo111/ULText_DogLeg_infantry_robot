@@ -6,7 +6,7 @@
 #include "BMI088driver.h"
 #include "IMU_DATA_GET.h"
 #include "MahonyAHRS.h"
-#include "math.h"
+#include "DM_IMU.h"
 
 void IMU_DATA_GET()
 {
@@ -27,6 +27,14 @@ void IMU_DATA_GET()
         yaw_angle_from_bmi088 = INS_degree[0] ;
         pitch_angle_from_bmi088 = INS_degree[1] ;
         roll_angle_from_bmi088 = INS_degree[2] ;
+
+        roll_speed_from_dm = imu.gyro[0];
+        pitch_speed_from_dm = imu.gyro[1];
+        yaw_speed_from_dm = imu.gyro[2];
+
+        yaw_angle_from_dm = imu.yaw ;
+        pitch_angle_from_dm = imu.pitch ;
+        roll_angle_from_dm = imu.roll ;
 
 
         osDelay(1);
