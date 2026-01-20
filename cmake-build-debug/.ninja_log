@@ -194,3 +194,8 @@
 14	102	7905883669443414	CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/xiaomi_motor_task.c.obj	69a60d8acf6969e
 3	103	7905883669333805	CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/Core/Src/main.c.obj	2cca192fb6948d03
 103	253	7905883670330515	ULText_DogLeg_infantry_robot.elf	75e75fe7c7ee3ae6
+13	105	7905927421548227	CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/xiaomi_motor_task.c.obj	69a60d8acf6969e
+3	109	7905927421448227	CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/Core/Src/main.c.obj	2cca192fb6948d03
+5	117	7905928032493262	CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/xiaomi_motor_task.c.obj	69a60d8acf6969e
+3	100	7905928114151451	CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/xiaomi_motor_task.c.obj	69a60d8acf6969e
+100	261	7905928115120864	ULText_DogLeg_infantry_robot.elf	75e75fe7c7ee3ae6

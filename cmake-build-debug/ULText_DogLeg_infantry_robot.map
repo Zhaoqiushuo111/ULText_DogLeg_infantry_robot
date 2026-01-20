@@ -3976,11 +3976,11 @@ LOAD C:/CLionToolchains/gcc-arm-none-eabi-10.3-2021.10/bin/../lib/gcc/arm-none-e
                 0x2000009c        0xc CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/gimbal_motor_control.c.obj
  .data.shoot_2006_id3_speed_kpkikd.0
                 0x200000a8        0xc CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/shoot_control.c.obj
- .data.xiaomi_can2_id2_kpkikd.1
+ .data.xiaomi_can1_id2_kpkikd.1
                 0x200000b4        0xc CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/xiaomi_motor_task.c.obj
  .data.xiaomi_can1_id1_angle_kpkikd.2
                 0x200000c0        0xc CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/xiaomi_motor_task.c.obj
- .data.xiaomi_can2_id1_kpkikd.3
+ .data.xiaomi_can1_id1_kpkikd.3
                 0x200000cc        0xc CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/xiaomi_motor_task.c.obj
  .data.__sglue  0x200000d8        0xc C:/CLionToolchains/gcc-arm-none-eabi-10.3-2021.10/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard\libg.a(libc_a-findfp.o)
                 0x200000d8                __sglue
@@ -4587,12 +4587,12 @@ LOAD C:/CLionToolchains/gcc-arm-none-eabi-10.3-2021.10/bin/../lib/gcc/arm-none-e
  .bss.xiaomi_can1_ID1_angle_pid
                 0x200056fc       0x48 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/xiaomi_motor_task.c.obj
                 0x200056fc                xiaomi_can1_ID1_angle_pid
- .bss.xiaomi_can2_ID2_speed_pid
+ .bss.xiaomi_can1_ID2_speed_pid
                 0x20005744       0x48 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/xiaomi_motor_task.c.obj
-                0x20005744                xiaomi_can2_ID2_speed_pid
- .bss.xiaomi_can2_ID1_speed_pid
+                0x20005744                xiaomi_can1_ID2_speed_pid
+ .bss.xiaomi_can1_ID1_speed_pid
                 0x2000578c       0x48 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/xiaomi_motor_task.c.obj
-                0x2000578c                xiaomi_can2_ID1_speed_pid
+                0x2000578c                xiaomi_can1_ID1_speed_pid
  .bss.__sf      0x200057d4      0x138 C:/CLionToolchains/gcc-arm-none-eabi-10.3-2021.10/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard\libg.a(libc_a-findfp.o)
                 0x200057d4                __sf
  .bss.__stdio_exit_handler
@@ -4911,7 +4911,7 @@ LOAD C:/CLionToolchains/gcc-arm-none-eabi-10.3-2021.10/bin/../lib/gcc/arm-none-e
 LOAD C:/CLionToolchains/gcc-arm-none-eabi-10.3-2021.10/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard\libm.a
 LOAD C:/CLionToolchains/gcc-arm-none-eabi-10.3-2021.10/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard\libgcc.a
 
-.debug_info     0x00000000    0x2ac54
+.debug_info     0x00000000    0x2ac44
  .debug_info    0x00000000      0xc9d CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/Core/Src/can.c.obj
  .debug_info    0x00000c9d      0x5d4 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/Core/Src/dma.c.obj
  .debug_info    0x00001271     0x1169 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/Core/Src/freertos.c.obj
@@ -4966,9 +4966,9 @@ LOAD C:/CLionToolchains/gcc-arm-none-eabi-10.3-2021.10/bin/../lib/gcc/arm-none-e
  .debug_info    0x000293b6      0x664 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/uart_callback.c.obj
  .debug_info    0x00029a1a      0x6e0 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/uart_printf.c.obj
  .debug_info    0x0002a0fa      0x33c CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/uart_sent.c.obj
- .debug_info    0x0002a436      0x81e CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/xiaomi_motor_task.c.obj
+ .debug_info    0x0002a436      0x80e CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/xiaomi_motor_task.c.obj
 
-.debug_abbrev   0x00000000     0x6fa4
+.debug_abbrev   0x00000000     0x6f93
  .debug_abbrev  0x00000000      0x241 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/Core/Src/can.c.obj
  .debug_abbrev  0x00000241      0x12d CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/Core/Src/dma.c.obj
  .debug_abbrev  0x0000036e      0x273 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/Core/Src/freertos.c.obj
@@ -5023,7 +5023,7 @@ LOAD C:/CLionToolchains/gcc-arm-none-eabi-10.3-2021.10/bin/../lib/gcc/arm-none-e
  .debug_abbrev  0x00006892      0x19e CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/uart_callback.c.obj
  .debug_abbrev  0x00006a30      0x1e0 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/uart_printf.c.obj
  .debug_abbrev  0x00006c10      0x14f CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/uart_sent.c.obj
- .debug_abbrev  0x00006d5f      0x245 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/xiaomi_motor_task.c.obj
+ .debug_abbrev  0x00006d5f      0x234 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/xiaomi_motor_task.c.obj
 
 .debug_loclists
                 0x00000000     0xf12b
@@ -5335,7 +5335,7 @@ LOAD C:/CLionToolchains/gcc-arm-none-eabi-10.3-2021.10/bin/../lib/gcc/arm-none-e
  .debug_rnglists
                 0x0000154f       0x51 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/xiaomi_motor_task.c.obj
 
-.debug_line     0x00000000    0x1eafe
+.debug_line     0x00000000    0x1eae7
  .debug_line    0x00000000      0x4e5 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/Core/Src/can.c.obj
  .debug_line    0x000004e5      0x213 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/Core/Src/dma.c.obj
  .debug_line    0x000006f8      0x5f9 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/Core/Src/freertos.c.obj
@@ -5390,7 +5390,7 @@ LOAD C:/CLionToolchains/gcc-arm-none-eabi-10.3-2021.10/bin/../lib/gcc/arm-none-e
  .debug_line    0x0001de36      0x2f8 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/uart_callback.c.obj
  .debug_line    0x0001e12e      0x30e CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/uart_printf.c.obj
  .debug_line    0x0001e43c      0x281 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/uart_sent.c.obj
- .debug_line    0x0001e6bd      0x441 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/xiaomi_motor_task.c.obj
+ .debug_line    0x0001e6bd      0x42a CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/code_mf/Src/xiaomi_motor_task.c.obj
 
 .debug_str      0x00000000     0x9f83
  .debug_str     0x00000000     0x9f83 CMakeFiles/ULText_DogLeg_infantry_robot.elf.dir/Core/Src/can.c.obj

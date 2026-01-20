@@ -76,7 +76,7 @@ void xiaomi_angle_limit()
 void xiaomi_can1_id1_speed_pid_init(void)
 {
     static fp32 xiaomi_can1_id1_kpkikd[3] = {XIAOMI_CAN1_ID1_SPEED_PID_KP,XIAOMI_CAN1_ID1_SPEED_PID_KI,XIAOMI_CAN1_ID1_SPEED_PID_KD};
-    PID_init(&xiaomi_can2_ID1_speed_pid, PID_POSITION, xiaomi_can1_id1_kpkikd, XIAOMI_CAN1_ID1_SPEED_PID_OUT_MAX, XIAOMI_CAN1_ID1_SPEED_PID_KI_MAX);
+    PID_init(&xiaomi_can1_ID1_speed_pid, PID_POSITION, xiaomi_can1_id1_kpkikd, XIAOMI_CAN1_ID1_SPEED_PID_OUT_MAX, XIAOMI_CAN1_ID1_SPEED_PID_KI_MAX);
 
 }
 
@@ -112,23 +112,23 @@ float xiaomi_can1_id1_angle_pid_loop(float xiaomi_can1_ID1_angle_set_loop)
 //xiaomi_can2_id2_pid
 void xiaomi_can1_id2_speed_pid_init(void)
 {
-    static fp32 xiaomi_can2_id2_kpkikd[3] = {XIAOMI_CAN2_ID2_SPEED_PID_KP,XIAOMI_CAN2_ID2_SPEED_PID_KI,XIAOMI_CAN2_ID2_SPEED_PID_KD};
-    PID_init(&xiaomi_can2_ID2_speed_pid, PID_POSITION, xiaomi_can2_id2_kpkikd, XIAOMI_CAN2_ID2_SPEED_PID_OUT_MAX, XIAOMI_CAN2_ID2_SPEED_PID_KI_MAX);
+    static fp32 xiaomi_can1_id2_kpkikd[3] = {XIAOMI_CAN1_ID2_SPEED_PID_KP,XIAOMI_CAN1_ID2_SPEED_PID_KI,XIAOMI_CAN1_ID2_SPEED_PID_KD};
+    PID_init(&xiaomi_can1_ID2_speed_pid, PID_POSITION, xiaomi_can1_id2_kpkikd, XIAOMI_CAN1_ID2_SPEED_PID_OUT_MAX, XIAOMI_CAN1_ID2_SPEED_PID_KI_MAX);
 
 }
 
-float xiaomi_can1_id2_speed_pid_loop(float xiaomi_can2_id2_speed_set_loop)
+float xiaomi_can1_id2_speed_pid_loop(float xiaomi_can1_id2_speed_set_loop)
 {
-    PID_calc(&xiaomi_can2_ID2_speed_pid, xiaomimotors[1].fifilter_compute_speed , xiaomi_can2_id2_speed_set_loop);
-    float xiaomi_can2_id2_speed_loop = (float)(xiaomi_can2_ID2_speed_pid.out);
+    PID_calc(&xiaomi_can1_ID2_speed_pid, xiaomimotors[1].fifilter_compute_speed , xiaomi_can1_id2_speed_set_loop);
+    float xiaomi_can1_id2_speed_loop = (float)(xiaomi_can1_ID2_speed_pid.out);
 
-    return xiaomi_can2_id2_speed_loop ;
+    return xiaomi_can1_id2_speed_loop ;
 
 }
 void xiaomi_can1_id2_angle_pid_init(void)
 {
-    static fp32 xiaomi_can1_id2_angle_kpkikd[3] = {XIAOMI_CAN2_ID2_ANGLE_PID_KP, XIAOMI_CAN2_ID2_ANGLE_PID_KI, XIAOMI_CAN2_ID2_ANGLE_PID_KD};
-    PID_init(&xiaomi_can1_ID2_angle_pid, PID_POSITION, xiaomi_can1_id2_angle_kpkikd, XIAOMI_CAN2_ID2_ANGLE_PID_OUT_MAX, XIAOMI_CAN2_ID2_ANGLE_PID_KI_MAX);
+    static fp32 xiaomi_can1_id2_angle_kpkikd[3] = {XIAOMI_CAN1_ID2_ANGLE_PID_KP, XIAOMI_CAN1_ID2_ANGLE_PID_KI, XIAOMI_CAN1_ID2_ANGLE_PID_KD};
+    PID_init(&xiaomi_can1_ID2_angle_pid, PID_POSITION, xiaomi_can1_id2_angle_kpkikd, XIAOMI_CAN1_ID2_ANGLE_PID_OUT_MAX, XIAOMI_CAN1_ID2_ANGLE_PID_KI_MAX);
 
 }
 
