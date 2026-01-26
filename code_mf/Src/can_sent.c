@@ -26,14 +26,14 @@ void can_sent()
     {
         if( rc_receive_state == RC_OFFLINE | yaw_6020_state == GM6020_DIE | pitch_6020_state == GM6020_DIE)//ң�������ߣ�ȫ���ϵ�
         {
-            can_rm_cmd_all(0, 0, 0, 0, 0, 0, 0, 0, 0);
+            can_rm_cmd_all(0, 0, 0, 0, 0, 0, 0, 0, 0,0,0);
             //can_xiaomi_cmd_all(CLOSE_XIAOMI);
         }
         else//ң�������ߣ��������п��ؿ���
         {
             if(rc_s0 == 2)
             {
-                can_rm_cmd_all(0, 0, 0, 0, 0, 0, 0, 0, 0);
+                can_rm_cmd_all(0, 0, 0, 0, 0, 0, 0, 0, 0,0,0);
                 //can_xiaomi_cmd_all(CLOSE_XIAOMI);
             }
             else if(rc_s0 == 3 | rc_s0 == 1)//�˶�ģʽ
@@ -56,12 +56,14 @@ void can_sent()
                                PITCH_6020_ID2_GIVEN_CURRENT,
                                FRICTION_WHEEL_3510_ID1_GIVEN_CURRENT,
                                FRICTION_WHEEL_3510_ID2_GIVEN_CURRENT,
-                               SHOOT_2006_ID3_GIVEN_CURRENT);
+                               SHOOT_2006_ID3_GIVEN_CURRENT,
+                               track_2006_can1_id7_current,
+                               track_2006_can1_id8_current);
             }
 
             else//ң�������ݳ�ʼ���л����ȫ���ϵ�
             {
-                can_rm_cmd_all(0, 0, 0, 0, 0, 0, 0, 0, 0);
+                can_rm_cmd_all(0, 0, 0, 0, 0, 0, 0, 0, 0,0,0);
                 //can_xiaomi_cmd_all(CLOSE_XIAOMI);
             }
 
@@ -103,12 +105,12 @@ void can_rm_cmd_all(int16_t chassis_id1 , int16_t chassis_id2 ,
                     int16_t chassis_id3 , int16_t chassis_id4 ,
                     int16_t yaw_id1 , int16_t pitch_id2 ,
                     int16_t friction_wheel_id1, int16_t friction_wheel_id2 ,
-                    int16_t shoot_id3 )
+                    int16_t shoot_id3, int16_t track_id7, int16_t track_id8 )
 {
     CAN2_cmd_pitch(pitch_id2,0,0,0);
     CAN2_cmd_friction_wheels(friction_wheel_id1,friction_wheel_id2,0,0);
     CAN1_cmd_chassis(chassis_id1, chassis_id2, chassis_id3, chassis_id4);
-    CAN1_cmd_yaw(yaw_id1,0,shoot_id3,0);
+    CAN1_cmd_yaw(yaw_id1,shoot_id3,track_id7,track_id8);
 
 }
 

@@ -137,6 +137,13 @@ float CHASSIS_3508_ALL_COMPUTE_SPEED ;
 
 float CHASSIS_FOLLOW_GIMBAL_GIVEN_SPEED ;
 
+//履带独立驱动
+int16_t track_2006_can1_id7_speed;
+int16_t track_2006_can1_id8_speed;
+
+int16_t track_2006_can1_id7_current;
+int16_t track_2006_can1_id8_current;
+
 float beyond_power ;
 
 int16_t chassis_power_state ;//0为正常，1为超功率限制状态
@@ -227,11 +234,13 @@ float auto_aim_los_yaw_angle ;
 
 uint8_t uart1_receive_data ;//串口当前接收字节
 
-float xiaomi_can1_id1_given_angle;
-float xiaomi_can1_id2_given_angle;
+float xiaomi_can1_id1_given_angle ;
+float xiaomi_can1_id2_given_angle ;
 float xiaomi_can1_id1_given_speed;
 float xiaomi_can1_id2_given_speed;
 
+static float xiaomi_can1_id1_init_angle;
+static float xiaomi_can1_id2_init_angle;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -358,6 +367,9 @@ int main(void)
 
     chassis_follow_gimbal_angle_pid_init();//底盘跟随初始化
 
+  //履带电机初始化
+  track_2006_can1_id7_speed_pid_init();
+  track_2006_can1_id8_speed_pid_init();
     //云台电机初始化
     yaw_speed_pid_init();//yaw速度环pid初始化
     yaw_angle_pid_init();//yaw位置环pid初始化

@@ -39,36 +39,63 @@ void xiaomi_motor_task()
 
 void xiaomi_pid_compute()
 {
-    xiaomi_can1_id1_given_angle = xiaomi_can1_id1_given_angle + 0.00001f * (float )rc_ch4 ;
-    xiaomi_can1_id1_given_speed =  xiaomi_can1_id1_angle_pid_loop(xiaomi_can1_id1_given_angle) ;
+    // xiaomi_can1_id1_given_angle = xiaomi_can1_id1_given_angle + 0.00001f * (float )rc_ch1 ;
+    // xiaomi_can1_id1_given_speed = 20.0f * xiaomi_can1_id1_angle_pid_loop(xiaomi_can1_id1_given_angle) ;
+    // xiaomimotors[0].give_tor = xiaomi_can1_id1_speed_pid_loop(xiaomi_can1_id1_given_speed);
+    //
+    // xiaomi_can1_id2_given_angle = xiaomi_can1_id2_given_angle - 0.00001f * (float )rc_ch3;
+    // xiaomi_can1_id2_given_speed  = 20.0f * xiaomi_can1_id2_angle_pid_loop(xiaomi_can1_id2_given_angle) ;
+    // xiaomimotors[1].give_tor = xiaomi_can1_id2_speed_pid_loop(xiaomi_can1_id2_given_speed);
+
+    // xiaomi_can1_id1_given_speed =  0.01f * (float )rc_ch4 ;
+    // xiaomimotors[0].give_tor = xiaomi_can1_id1_speed_pid_loop(xiaomi_can1_id1_given_speed);
+    //
+    // xiaomi_can1_id2_given_speed =  0.01f * (float )rc_ch4 ;
+    // xiaomimotors[1].give_tor = xiaomi_can1_id2_speed_pid_loop(xiaomi_can1_id2_given_speed);
+
+    if (rc_s0 == 1)
+    {
+        xiaomi_can1_id1_given_angle = xiaomi_can1_id1_given_angle + 0.00001f * (float )rc_ch1 ;
+        xiaomi_can1_id2_given_angle = xiaomi_can1_id2_given_angle - 0.00001f * (float )rc_ch3;
+    }
+    else if (rc_s0 == 3 )
+    {
+        xiaomi_can1_id1_given_angle = xiaomimotors[0].return_angle ;
+        xiaomi_can1_id2_given_angle = xiaomimotors[1].return_angle;
+    }
+    xiaomi_can1_id1_given_speed = 20.0f * xiaomi_can1_id1_angle_pid_loop(xiaomi_can1_id1_given_angle) ;
     xiaomimotors[0].give_tor = xiaomi_can1_id1_speed_pid_loop(xiaomi_can1_id1_given_speed);
 
-    xiaomi_can1_id2_given_angle = xiaomi_can1_id2_given_angle - 0.00001f * (float )rc_ch4 ;
-    xiaomi_can1_id2_given_speed  =  xiaomi_can1_id2_angle_pid_loop(xiaomi_can1_id2_given_angle) ;
+
+    xiaomi_can1_id2_given_speed  = 20.0f * xiaomi_can1_id2_angle_pid_loop(xiaomi_can1_id2_given_angle) ;
     xiaomimotors[1].give_tor = xiaomi_can1_id2_speed_pid_loop(xiaomi_can1_id2_given_speed);
+
 
 }
 
 
 void xiaomi_angle_limit()
 {
-    if (xiaomi_can1_id1_given_angle > 0.47f)
+     xiaomi_can1_id1_init_angle = xiaomimotors[0].return_angle;
+     xiaomi_can1_id2_init_angle = xiaomimotors[1].return_angle;
+
+    if (xiaomi_can1_id1_given_angle > xiaomi_can1_id1_init_angle + 0.75f)
     {
-        xiaomi_can1_id1_given_angle = 0.47f;
+        xiaomi_can1_id1_given_angle = xiaomi_can1_id1_init_angle + 0.75f;
     }
-   else if (xiaomi_can1_id1_given_angle < -0.79f)
+   else if (xiaomi_can1_id1_given_angle < xiaomi_can1_id1_init_angle - 0.75f)
     {
-       xiaomi_can1_id1_given_angle = -0.79f;
+       xiaomi_can1_id1_given_angle = xiaomi_can1_id1_init_angle - 0.75f;
     }
 
 
-    if (xiaomi_can1_id2_given_angle > -2.17f)
+    if (xiaomi_can1_id2_given_angle > xiaomi_can1_id2_init_angle + 0.75f)
     {
-        xiaomi_can1_id2_given_angle = -2.17f;
+        xiaomi_can1_id2_given_angle = xiaomi_can1_id2_init_angle + 0.75f;
     }
-    else if (xiaomi_can1_id2_given_angle < -3.54f)
+    else if (xiaomi_can1_id2_given_angle < xiaomi_can1_id2_init_angle - 0.75f)
     {
-       xiaomi_can1_id2_given_angle = -3.54f;
+       xiaomi_can1_id2_given_angle = xiaomi_can1_id2_init_angle - 0.75f;
     }
 }
 

@@ -46,14 +46,33 @@
 #define CHASSIS_3508_ID4_SPEED_PID_KD   0.0f
 
 
-#define CHASSIS_FOLLOW_GIMBAL_ANGLE_PID_KP        0.0f//2.0f
-#define CHASSIS_FOLLOW_GIMBAL_ANGLE_PID_KI        0.0f//0.1f
-#define CHASSIS_FOLLOW_GIMBAL_ANGLE_PID_KD        0.0f//5.0f
+
+
+
+#define CHASSIS_FOLLOW_GIMBAL_ANGLE_PID_KP        2.0f
+#define CHASSIS_FOLLOW_GIMBAL_ANGLE_PID_KI        0.1f
+#define CHASSIS_FOLLOW_GIMBAL_ANGLE_PID_KD        5.0f
 #define CHASSIS_FOLLOW_GIMBAL_ANGLE_PID_OUT_MAX   3000.0f
 #define CHASSIS_FOLLOW_GIMBAL_ANGLE_PID_KI_MAX    0.0f
 
 
-#define YAW_MID_ECD 6851
+
+#define track_2006_SPEED_PID_OUT_MAX   16384.0f
+#define track_2006_SPEED_PID_KI_MAX   1000.0f
+
+
+#define track_2006_can1_id7_SPEED_PID_KP   1.0f
+#define track_2006_can1_id7_SPEED_PID_KI   0.1f
+#define track_2006_can1_id7_SPEED_PID_KD   0.0f
+
+#define track_2006_can1_id8_SPEED_PID_KP   0.20f
+#define track_2006_can1_id8_SPEED_PID_KI   0.05f
+#define track_2006_can1_id8_SPEED_PID_KD   0.0f
+
+
+
+
+#define YAW_MID_ECD 7720
 
 #define CHASSIS_PID_COMPUTE_FREQUENCY 1000  // Hz
 
@@ -75,7 +94,7 @@ extern pid_type_def chassis_3508_ID4_speed_pid;
 
 extern pid_type_def chassis_follow_gimbal_pid;
 
-
+void independent_track_drive();
 void rc_to_gimbal_speed_compute();
 
 void gimbal_to_chassis_speed_compute();
@@ -98,6 +117,8 @@ int16_t chassis_3508_id4_speed_pid_loop(int16_t chassis_3508_ID4_speed_set_loop)
 void chassis_follow_gimbal_angle_pid_init(void);
 float chassis_follow_gimbal_pid_loop(float PITCH_6020_ID2_angle_set_loop);
 
-
-
+void track_2006_can1_id7_speed_pid_init();
+int16_t track_2006_can1_id7_speed_pid_loop(int16_t track_2006_can1_id7_speed_set_loop);
+void track_2006_can1_id8_speed_pid_init();
+int16_t track_2006_can1_id8_speed_pid_loop(int16_t track_2006_can1_id7_speed_set_loop);
 #endif

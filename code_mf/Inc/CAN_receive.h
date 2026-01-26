@@ -36,7 +36,8 @@ typedef enum
 
     CAN_YAW_MOTOR_ID = 0x205,
     CAN_PIT_MOTOR_ID = 0x206,
-    CAN_TRIGGER_MOTOR_ID = 0x207,
+    CAN_TRACK_MOTOR1_ID = 0x207,
+    CAN_TRACK_MOTOR2_ID = 0x208,
     CAN_GIMBAL_ALL_ID = 0x1FF,
 
     CAN_DM_IMU = 0xBC,
@@ -52,8 +53,8 @@ typedef struct
     uint8_t temperate;
     int16_t last_ecd;
 } motor_measure_t;
-extern motor_measure_t motor_can1_data[7];
-extern motor_measure_t motor_can2_data[7];
+extern motor_measure_t motor_can1_data[8];
+extern motor_measure_t motor_can2_data[8];
 
 void CAN2_cmd_pitch(int16_t pitch, int16_t none0, int16_t none1, int16_t none2);
 

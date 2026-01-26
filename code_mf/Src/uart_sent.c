@@ -24,17 +24,16 @@ void uart_sent_debug()
 {
     while (1)
     {
-        usart6_printf("%d,%d\r\n",
-                      motor_can1_data[0].speed_rpm,
-                      motor_can1_data[1].speed_rpm);
-       //  usart6_printf("%f,%f,%f,%f,%f,%f \r\n",
-       // xiaomi_can1_id2_given_angle,
-       // xiaomi_can1_id2_given_speed  ,
-       //  xiaomimotors[1].fifilter_compute_speed,
-       //  xiaomimotors[1].return_angle,
-       //  xiaomimotors[1].give_tor,
-       // yaw_speed_from_dm
-      //);
+        // usart6_printf("%d,%d\r\n",
+        //               motor_can1_data[0].speed_rpm,
+        //               motor_can1_data[1].speed_rpm);
+         usart6_printf("%d,%d,%d,%f,%f,%f  \r\n",
+       track_2006_can1_id8_speed,
+        track_2006_can1_id8_current,
+         motor_can1_data[7].speed_rpm,
+         xiaomimotors[1].return_angle,
+         xiaomimotors[1].last_angle,
+        xiaomimotors[0].last_angle);
 
 
 

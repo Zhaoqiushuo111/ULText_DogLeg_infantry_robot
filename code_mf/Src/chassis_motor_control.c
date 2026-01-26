@@ -17,6 +17,9 @@ pid_type_def chassis_3508_ID4_speed_pid;
 
 pid_type_def chassis_follow_gimbal_pid;
 
+pid_type_def track_2006_can1_id7_speed_pid;
+pid_type_def track_2006_can1_id8_speed_pid;
+
 
 
 void chassis_motor_control()
@@ -28,6 +31,7 @@ void chassis_motor_control()
         yaw_ecd_angle_to_radian();
         gimbal_to_chassis_speed_compute();//底盘速度解算
         chassis_settlement();//轮系速度解算
+        independent_track_drive();
         motor_chassis_pid_compute();//pid速度
 
         osDelay((1/CHASSIS_PID_COMPUTE_FREQUENCY)*1000);
@@ -59,7 +63,7 @@ void rc_to_gimbal_speed_compute()
     }
     else
     {
-        gimbal_vy = (float)(4 * rc_ch1 ) ;
+         gimbal_vy = (float)(4 * rc_ch1 ) ;
     }
 
 
@@ -77,7 +81,7 @@ void rc_to_gimbal_speed_compute()
     }
     else
     {
-        gimbal_vx = (float)(4 * rc_ch0 ) ;
+         gimbal_vx = (float)(4 * rc_ch0 ) ;
     }
 
 
@@ -122,7 +126,16 @@ void gimbal_to_chassis_speed_compute()
 
 }
 
+void independent_track_drive()
+{
 
+
+        track_2006_can1_id7_speed = - 7 * (int16_t)(chassis_vy + chassis_vx ) ;
+        track_2006_can1_id8_speed = - 7 * (int16_t)(-chassis_vy + chassis_vx ) ;
+
+
+
+}
 
 
 void chassis_settlement()
@@ -153,7 +166,7 @@ void chassis_settlement()
 
         if (rc_s0 == 1)
         {
-            chassis_vround = 0.25f * beyond_power ;
+            // chassis_vround = 0.25f * beyond_power ;
         } else if(rc_s0 == 3)
         {
 
@@ -219,6 +232,8 @@ void motor_chassis_pid_compute()
     CHASSIS_3508_ID3_GIVEN_CURRENT = chassis_3508_id3_speed_pid_loop(CHASSIS_3508_ID3_GIVEN_SPEED);
     CHASSIS_3508_ID4_GIVEN_CURRENT = chassis_3508_id4_speed_pid_loop(CHASSIS_3508_ID4_GIVEN_SPEED);
 
+    track_2006_can1_id7_current = track_2006_can1_id7_speed_pid_loop(track_2006_can1_id7_speed);
+    track_2006_can1_id8_current = track_2006_can1_id8_speed_pid_loop(track_2006_can1_id8_speed);
 }
 
 
@@ -316,6 +331,39 @@ float chassis_follow_gimbal_pid_loop(float PITCH_6020_ID2_angle_set_loop)
     return chassis_follow_gimbal_angle_loop ;
 
 }
+
+void track_2006_can1_id7_speed_pid_init(void)
+{
+    static fp32 track_2006_can1_id7_speed_kpkikd[3] = {track_2006_can1_id7_SPEED_PID_KP,track_2006_can1_id7_SPEED_PID_KI,track_2006_can1_id7_SPEED_PID_KD};
+    PID_init(&track_2006_can1_id7_speed_pid,PID_POSITION,track_2006_can1_id7_speed_kpkikd,track_2006_SPEED_PID_OUT_MAX,track_2006_SPEED_PID_KI_MAX);
+
+}
+
+int16_t track_2006_can1_id7_speed_pid_loop(int16_t track_2006_can1_id7_speed_set_loop)
+{
+    PID_calc(&track_2006_can1_id7_speed_pid, motor_can1_data[6].speed_rpm, track_2006_can1_id7_speed_set_loop);
+    int16_t track_2006_can1_id7_given_current_loop = (int16_t)(track_2006_can1_id7_speed_pid.out);
+
+    return track_2006_can1_id7_given_current_loop ;
+
+}
+
+void track_2006_can1_id8_speed_pid_init(void)
+{
+    static fp32 track_2006_can1_id8_speed_kpkikd[3] = {track_2006_can1_id8_SPEED_PID_KP,track_2006_can1_id8_SPEED_PID_KI,track_2006_can1_id8_SPEED_PID_KD};
+    PID_init(&track_2006_can1_id8_speed_pid,PID_POSITION,track_2006_can1_id8_speed_kpkikd,track_2006_SPEED_PID_OUT_MAX,track_2006_SPEED_PID_KI_MAX);
+
+}
+
+int16_t track_2006_can1_id8_speed_pid_loop(int16_t track_2006_can1_id8_speed_set_loop)
+{
+    PID_calc(&track_2006_can1_id8_speed_pid, motor_can1_data[7].speed_rpm, track_2006_can1_id8_speed_set_loop);
+    int16_t track_2006_can1_id8_given_current_loop = (int16_t)(track_2006_can1_id8_speed_pid.out);
+
+    return track_2006_can1_id8_given_current_loop ;
+
+}
+
 
 
 

@@ -39,8 +39,8 @@ motor data,  0:chassis motor1 3508;1:chassis motor3 3508;2:chassis motor3 3508;3
 4:yaw gimbal_vx motor 6020;5:pitch gimbal_vx motor 6020;6:trigger motor 2006;
 电机数据, 0:底盘电机1 3508电机,  1:底盘电机2 3508电机,2:底盘电机3 3508电机,3:底盘电机4 3508电机;
 4:yaw云台电机 6020电机; 5:pitch云台电机 6020电机; 6:拨弹电机 2006电机*/
-motor_measure_t motor_can1_data[7];
-motor_measure_t motor_can2_data[7];
+motor_measure_t motor_can1_data[8];
+motor_measure_t motor_can2_data[8];
 
 static CAN_TxHeaderTypeDef  shoot_tx_message;
 static uint8_t              shoot_can_send_data[8];
@@ -80,7 +80,8 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
             case CAN_3508_M4_ID:
             case CAN_YAW_MOTOR_ID:
             case CAN_PIT_MOTOR_ID:
-            case CAN_TRIGGER_MOTOR_ID:
+            case CAN_TRACK_MOTOR1_ID:
+            case CAN_TRACK_MOTOR2_ID:
             {
                 static uint8_t i = 0;
                 i = can1_rx_header.StdId - CAN_3508_M1_ID;
@@ -153,7 +154,8 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
             case CAN_3508_M4_ID:
             case CAN_YAW_MOTOR_ID:
             case CAN_PIT_MOTOR_ID:
-            case CAN_TRIGGER_MOTOR_ID:
+            case CAN_TRACK_MOTOR1_ID:
+            case CAN_TRACK_MOTOR2_ID:
             {
                 static uint8_t i = 0;
                 i = can2_rx_header.StdId - CAN_3508_M1_ID;

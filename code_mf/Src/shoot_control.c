@@ -39,7 +39,7 @@ void shoot_speed_compute()
     }
     else
     {
-        if(rc_s0==1 | mouse_press_l == 1)
+        if(rc_ch4 > 600 | mouse_press_l == 1)
         {
             SHOOT_2006_ID3_GIVEN_SPEED = SHOOT_TURN_ON_SPEED ;
         }
@@ -98,7 +98,7 @@ void shoot_2006_id3_speed_pid_init(void)
 
 int16_t shoot_2006_id3_speed_pid_loop(float shoot_2006_ID3_speed_set_loop)
 {
-    PID_calc(&shoot_2006_ID3_speed_pid, motor_can1_data[6].speed_rpm , shoot_2006_ID3_speed_set_loop);
+    PID_calc(&shoot_2006_ID3_speed_pid, motor_can1_data[5].speed_rpm , shoot_2006_ID3_speed_set_loop);
     int16_t shoot_2006_id3_given_current_loop = (int16_t)(shoot_2006_ID3_speed_pid.out);
 
     return shoot_2006_id3_given_current_loop ;

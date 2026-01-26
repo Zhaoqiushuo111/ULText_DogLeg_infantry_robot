@@ -124,6 +124,14 @@ extern float CHASSIS_3508_ALL_COMPUTE_SPEED ;
 
 extern float CHASSIS_FOLLOW_GIMBAL_GIVEN_SPEED ;
 
+    //履带独立驱动
+   extern int16_t track_2006_can1_id7_speed;
+   extern  int16_t track_2006_can1_id8_speed;
+
+    extern int16_t track_2006_can1_id7_current;
+    extern int16_t track_2006_can1_id8_current;
+
+
 extern float beyond_power ;
 
 extern int16_t chassis_power_state ;
@@ -214,6 +222,9 @@ extern float yaw_imu_preprocess ;
    extern float xiaomi_can1_id2_given_angle;
    extern float xiaomi_can1_id1_given_speed;
    extern float xiaomi_can1_id2_given_speed;
+
+ static float xiaomi_can1_id1_init_angle;
+ static float xiaomi_can1_id2_init_angle;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
