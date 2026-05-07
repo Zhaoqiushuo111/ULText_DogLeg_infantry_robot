@@ -2,6 +2,7 @@
 
 #include "can_sent.h"
 
+
 // void can_sent()
 //{
  //   while (1)
@@ -51,31 +52,6 @@
 //
 //     }
 // }
-
-//         if (rc_receive_state == RC_OFFLINE | yaw_6020_state == GM6020_DIE | pitch_6020_state == GM6020_DIE)
-//         //????????????????
-//         {
-//             can_xiaomi_cmd_all(CLOSE_XIAOMI);
-//         }
-//         else //?????????????????§á??????
-//         {
-//             if (rc_s0 == 2)//             {
-
-//                 can_xiaomi_cmd_all(CLOSE_XIAOMI);
-//             }
-//             else if (rc_s0 == 3 | rc_s0 == 1) //?????
-//             {
-//                 can_xiaomi_cmd_all(OPEN_XIAOMI);
-//             }
-//
-//             else //??????????????§Ý??????????
-//             {
-//                 can_xiaomi_cmd_all(CLOSE_XIAOMI);
-//             }
-//         }
-//
-//         osDelay(1);
-//     }
 
 //
 //
