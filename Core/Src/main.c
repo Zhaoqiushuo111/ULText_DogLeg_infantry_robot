@@ -28,37 +28,17 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <stdio.h>
-#include "board_LED.h"
-#include "uart_printf.h"
-#include "uart_sent.h"
-#include "bsp_rc.h"
 #include "remote_control.h"
-#include "get_rc.h"
 #include "bsp_can.h"
-#include "CAN_receive.h"
-#include "jy61p.h"
-#include "pid.h"
-#include "chassis_motor_control.h"
-#include "gimbal_motor_control.h"
 #include "shoot_control.h"
-#include <math.h>
-#include <stdbool.h>
 #include <string.h>
 #include "BMI088driver.h"
-#include "IMU_DATA_GET.h"
-#include "MahonyAHRS.h"
-#include "auto_aim.h"
-#include "can_comm.h"
-#include "xiaomi_motor_task.h"
-
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 
-const RC_ctrl_t *local_rc_ctrl ;//遥控器数据存储空间
+const RC_ctrl_t *local_rc_ctrl ;//?????????????
 int16_t rc_ch0 ;
 int16_t rc_ch1 ;
 int16_t rc_ch2 ;
@@ -90,157 +70,11 @@ int16_t mouse_press_l ;
 int16_t mouse_press_r ;
 
 
-int16_t rc_receive_state ;//遥控器状态 0为离线，1为在线
-uint32_t rc_receive_time ;//遥控器接收到数据的时间戳
+int16_t rc_receive_state ;//??????? 0??????1?????
+uint32_t rc_receive_time ;//???????????????????
 
+uint8_t uart1_receive_data ;
 
-
-int16_t yaw_6020_state ;//6020电机状态 0为错误，1为正常
-int16_t pitch_6020_state ;//6020电机状态 0为错误，1为正常
-
-float gimbal_vx ;
-float gimbal_vy ;
-
-float chassis_vx ;
-float chassis_vy ;
-float chassis_vround ;
-
-float yaw_angle_difference ;
-float yaw_radian_difference ;
-
-uint32_t gyro_time ;
-int16_t gyro_state ;
-
-
-
-
-
-
-//chassis
-int16_t CHASSIS_3508_ID1_GIVEN_SPEED ;
-int16_t CHASSIS_3508_ID1_GIVEN_CURRENT ;
-int16_t CHASSIS_3508_ID1_VXY_COMPUTE_SPEED ;
-
-int16_t CHASSIS_3508_ID2_GIVEN_SPEED ;
-int16_t CHASSIS_3508_ID2_GIVEN_CURRENT ;
-int16_t CHASSIS_3508_ID2_VXY_COMPUTE_SPEED ;
-
-int16_t CHASSIS_3508_ID3_GIVEN_SPEED ;
-int16_t CHASSIS_3508_ID3_GIVEN_CURRENT ;
-int16_t CHASSIS_3508_ID3_VXY_COMPUTE_SPEED ;
-
-int16_t CHASSIS_3508_ID4_GIVEN_SPEED ;
-int16_t CHASSIS_3508_ID4_GIVEN_CURRENT ;
-int16_t CHASSIS_3508_ID4_VXY_COMPUTE_SPEED ;
-
-float CHASSIS_3508_ALL_COMPUTE_SPEED ;
-
-float CHASSIS_FOLLOW_GIMBAL_GIVEN_SPEED ;
-
-//履带独立驱动
-int16_t track_2006_can1_id7_speed;
-int16_t track_2006_can1_id8_speed;
-
-int16_t track_2006_can1_id7_current;
-int16_t track_2006_can1_id8_current;
-
-float beyond_power ;
-
-int16_t chassis_power_state ;//0为正常，1为超功率限制状态
-
-
-//gimbal_vx
-float YAW_6020_ID1_GIVEN_SPEED ;
-int16_t YAW_6020_ID1_GIVEN_CURRENT ;
-float YAW_6020_ID1_GIVEN_ANGLE ;
-
-float PITCH_6020_ID2_GIVEN_ANGLE ;
-float PITCH_6020_ID2_GIVEN_SPEED ;
-int16_t PITCH_6020_ID2_GIVEN_CURRENT ;
-float pitch_motor_mean_speed ;
-int16_t pitch_motor_speed_last_data [3] ;
-
-
-//friction wheel
-int16_t FRICTION_WHEEL_3510_ID1_GIVEN_SPEED ;
-int16_t FRICTION_WHEEL_3510_ID1_GIVEN_CURRENT ;
-
-int16_t FRICTION_WHEEL_3510_ID2_GIVEN_SPEED ;
-int16_t FRICTION_WHEEL_3510_ID2_GIVEN_CURRENT ;
-
-
-
-//shoot
-float SHOOT_2006_ID3_GIVEN_SPEED ;
-int16_t SHOOT_2006_ID3_GIVEN_CURRENT ;
-
-
-//robot_information
-int16_t robot_level = 1;
-uint32_t robot_level_time ;
-
-float robot_max_power ;
-
-float send_out_all_speed ;
-
-uint32_t servo_time ;
-uint32_t servo_rc_time ;
-uint32_t servo_state ;
-
-float gyro[3];
-float acce[3];
-float temp;
-float INS_quat[4] = {1.0f, 0.0f, 0.0f, 0.0f};
-float INS_angle[3] = {0.0f, 0.0f, 0.0f};
-float INS_degree[3] = {0.0f, 0.0f, 0.0f};
-
-
-float pitch_speed_from_bmi088 ;
-float yaw_speed_from_bmi088 ;
-float roll_speed_from_bmi088 ;
-
-
-float pitch_angle_from_bmi088 ;
-float yaw_angle_from_bmi088 ;
-float roll_angle_from_bmi088 ;
-
-float pitch_radian_from_bmi088 ;
-float yaw_radian_from_bmi088 ;
-float roll_radian_from_bmi088 ;
-
-float roll_speed_from_dm;
-float pitch_speed_from_dm;
-float yaw_speed_from_dm;
-
-float yaw_angle_from_dm ;
-float pitch_angle_from_dm;
-float roll_angle_from_dm;
-
-float YAW_IMU_LAST_ECD ;
-float YAW_IMU_LAPS ;
-float YAW_IMU_ABSCISSA ;
-float yaw_imu_preprocess ;
-
-uint16_t YAW_LAST_ECD;
-float YAW_LAPS;
-uint16_t YAW_FIN_ECD;
-
-uint8_t uart1_receive_data ;//串口当前接收字节
-
-uint32_t auto_aim_com_update_time ;
-
-float auto_aim_los_pitch_angle ;
-float auto_aim_los_yaw_angle ;
-
-uint8_t uart1_receive_data ;//串口当前接收字节
-
-float xiaomi_can1_id1_given_angle ;
-float xiaomi_can1_id2_given_angle ;
-float xiaomi_can1_id1_given_speed;
-float xiaomi_can1_id2_given_speed;
-
-static float xiaomi_can1_id1_init_angle;
-static float xiaomi_can1_id2_init_angle;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -309,84 +143,22 @@ int main(void)
   MX_TIM1_Init();
   MX_TIM8_Init();
   MX_SPI1_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 
-    HAL_TIM_Base_Start(&htim1);
-    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
-    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-    HAL_TIM_Base_Start(&htim8);
-    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_1);
-    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
-    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_3);
-
-    HAL_UART_Receive_DMA(&huart1, &uart1_receive_data, 1);  //串口2接收数据中断
-
-    remote_control_init();//遥控器初始化
-
-    local_rc_ctrl = get_remote_control_point();//遥控器初始化
-
-    memset(xiaomimotors, 0, sizeof(xiaomimotors));//清零
-    xiaomimotors[0].can_id = 0x01 ;
-    xiaomimotors[1].can_id = 0x02 ;
-    xiaomimotors[2].can_id = 0x03 ;
-    xiaomimotors[3].can_id = 0x04 ;
-    xiaomimotors[4].can_id = 0x01 ;
-    xiaomimotors[5].can_id = 0x02 ;
-    xiaomimotors[6].can_id = 0x03 ;
-    xiaomimotors[7].can_id = 0x04 ;
-    xiaomimotors[0].can_channel = 0x01 ;
-    xiaomimotors[1].can_channel = 0x01 ;
-    xiaomimotors[2].can_channel = 0x01 ;
-    xiaomimotors[3].can_channel = 0x01 ;
-    xiaomimotors[4].can_channel = 0x02 ;
-    xiaomimotors[5].can_channel = 0x02 ;
-    xiaomimotors[6].can_channel = 0x02 ;
-    xiaomimotors[7].can_channel = 0x02 ;
-
-    xiaomimotors[0].alpha_speed = 0.1f ;
-    xiaomimotors[1].alpha_speed = 0.1f ;
-    xiaomimotors[2].alpha_speed = 0.1f ;
-    xiaomimotors[3].alpha_speed = 0.1f ;
-    xiaomimotors[4].alpha_speed = 0.1f ;
-    xiaomimotors[5].alpha_speed = 0.1f ;
-    xiaomimotors[6].alpha_speed = 0.1f ;
-    xiaomimotors[7].alpha_speed = 0.1f ;
 
 
+    HAL_UART_Receive_DMA(&huart1, &uart1_receive_data, 1);
 
-    can_filter_init();//can通讯初始化
+    remote_control_init();
+
+    local_rc_ctrl = get_remote_control_point();
+
+    can_filter_init();
+
     BMI088_init();
 
-    //底盘电机初始化
-    chassis_3508_id1_speed_pid_init();
-    chassis_3508_id2_speed_pid_init();
-    chassis_3508_id3_speed_pid_init();
-    chassis_3508_id4_speed_pid_init();
 
-    chassis_follow_gimbal_angle_pid_init();//底盘跟随初始化
-
-  //履带电机初始化
-  track_2006_can1_id7_speed_pid_init();
-  track_2006_can1_id8_speed_pid_init();
-    //云台电机初始化
-    yaw_speed_pid_init();//yaw速度环pid初始化
-    yaw_angle_pid_init();//yaw位置环pid初始化
-    pitch_speed_from_bmi88_pid_init();//pitch速度环pid初始化
-    pitch_angle_pid_init();//pitch角度环pid初始化
-
-    //摩擦轮电机初始化
-    friction_wheel_3510_id1_speed_pid_init();//摩擦轮id1速度环初始化
-    friction_wheel_3510_id2_speed_pid_init();//摩擦轮id2速度环初始化
-
-    //拨弹盘电机初始化
-    shoot_2006_id3_speed_pid_init();//拨弹盘id3速度环初始化
-
-    xiaomi_can1_id1_speed_pid_init();//机械臂关节can2_id1电机初始化
-    xiaomi_can1_id2_speed_pid_init();//机械臂关节can2_id2电机初始化
-    xiaomi_can1_id1_angle_pid_init();
-    xiaomi_can1_id2_angle_pid_init();
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in cmsis_os2.c) */

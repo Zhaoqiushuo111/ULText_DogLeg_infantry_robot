@@ -6,7 +6,7 @@
 # It is included in the main 'build.ninja'.
 
 # =============================================================================
-# Project: ULText_DogLeg_infantry_robot
+# Project: Bio_inspired_Quadruped_Robot
 # Configurations: Debug
 # =============================================================================
 # =============================================================================
@@ -14,7 +14,7 @@
 #############################################
 # Rule for compiling ASM files.
 
-rule ASM_COMPILER__ULText_DogLeg_infantry_robot.2eelf_unscanned_Debug
+rule ASM_COMPILER__Bio_inspired_Quadruped_Robot.2eelf_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\CLionToolchains\gcc-arm-none-eabi-10.3-2021.10\bin\arm-none-eabi-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -24,7 +24,7 @@ rule ASM_COMPILER__ULText_DogLeg_infantry_robot.2eelf_unscanned_Debug
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER__ULText_DogLeg_infantry_robot.2eelf_unscanned_Debug
+rule C_COMPILER__Bio_inspired_Quadruped_Robot.2eelf_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\CLionToolchains\gcc-arm-none-eabi-10.3-2021.10\bin\arm-none-eabi-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -34,11 +34,9 @@ rule C_COMPILER__ULText_DogLeg_infantry_robot.2eelf_unscanned_Debug
 #############################################
 # Rule for linking C executable.
 
-rule C_EXECUTABLE_LINKER__ULText_DogLeg_infantry_robot.2eelf_Debug
-  command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\CLionToolchains\gcc-arm-none-eabi-10.3-2021.10\bin\arm-none-eabi-gcc.exe $FLAGS $LINK_FLAGS @$RSP_FILE -o $TARGET_FILE && $POST_BUILD"
-  description = Linking C executable $TARGET_FILE; Building W:/Github demo/ULText_DogLeg_infantry_robot/cmake-build-debug/ULText_DogLeg_infantry_robot.hex / Building W:/Github demo/ULText_DogLeg_infantry_robot/cmake-build-debug/ULText_DogLeg_infantry_robot.bin
-  rspfile = $RSP_FILE
-  rspfile_content = $in $LINK_PATH $LINK_LIBRARIES
+rule C_EXECUTABLE_LINKER__Bio_inspired_Quadruped_Robot.2eelf_Debug
+  command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\CLionToolchains\gcc-arm-none-eabi-10.3-2021.10\bin\arm-none-eabi-gcc.exe $FLAGS $LINK_FLAGS $in -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
+  description = Linking C executable $TARGET_FILE; Building W:/A_my_demo/JiaJun-s-demo/Bio_inspired_Quadruped_Robot/cmake-build-debug/Bio_inspired_Quadruped_Robot.hex / Building W:/A_my_demo/JiaJun-s-demo/Bio_inspired_Quadruped_Robot/cmake-build-debug/Bio_inspired_Quadruped_Robot.bin
   restat = $RESTAT
 
 
@@ -54,7 +52,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = "C:\Program Files\JetBrains\CLion 2025.2.5\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -S"W:\Github demo\ULText_DogLeg_infantry_robot" -B"W:\Github demo\ULText_DogLeg_infantry_robot\cmake-build-debug"
+  command = "C:\Program Files\JetBrains\CLion 2025.2.5\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SW:\A_my_demo\JiaJun-s-demo\Bio_inspired_Quadruped_Robot -BW:\A_my_demo\JiaJun-s-demo\Bio_inspired_Quadruped_Robot\cmake-build-debug
   description = Re-running CMake...
   generator = 1
 

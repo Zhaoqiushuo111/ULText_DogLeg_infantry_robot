@@ -40,7 +40,12 @@ typedef enum
     CAN_TRACK_MOTOR2_ID = 0x208,
     CAN_GIMBAL_ALL_ID = 0x1FF,
 
-    CAN_DM_IMU = 0xBC,
+    CAN_P_V = 0x209,
+
+    CAN_COMMUNICATION_A_ID = 0x301,
+    CAN_COMMUNICATION_B_ID = 0x302,
+    CAN_COMMUNICATION_C_ID = 0x303,
+
 
 } can_msg_id_e;
 
@@ -55,6 +60,18 @@ typedef struct
 } motor_measure_t;
 extern motor_measure_t motor_can1_data[8];
 extern motor_measure_t motor_can2_data[8];
+
+extern float Power ;
+
+extern int16_t Rch0;
+extern int16_t Rch1;
+extern int16_t Rch2;
+extern int16_t Rch3;
+extern int16_t Rch4;
+extern int16_t Rs0;
+extern int16_t Rs1;
+
+extern int16_t RC_attation;
 
 void CAN2_cmd_pitch(int16_t pitch, int16_t none0, int16_t none1, int16_t none2);
 

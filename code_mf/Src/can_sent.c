@@ -1,158 +1,95 @@
-//
-// Created by 21481 on 2025/3/17.
-//
-#include "main.h"
-#include "cmsis_os.h"
-#include "can.h"
-#include "dma.h"
-#include "usart.h"
-#include "gpio.h"
 
-#include "board_LED.h"
-#include "uart_printf.h"
-#include "uart_sent.h"
-#include "bsp_rc.h"
-#include "remote_control.h"
-#include "get_rc.h"
-#include "bsp_can.h"
-#include "CAN_receive.h"
-#include "error_detection.h"
+
 #include "can_sent.h"
-#include "can_comm.h"
 
-void can_sent()
-{
-    while (1)
-    {
-        if( rc_receive_state == RC_OFFLINE | yaw_6020_state == GM6020_DIE | pitch_6020_state == GM6020_DIE)//Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß£ï¿½È«ï¿½ï¿½ï¿½Ïµï¿½
-        {
-            can_rm_cmd_all(0, 0, 0, 0, 0, 0, 0, 0, 0,0,0);
-            //can_xiaomi_cmd_all(CLOSE_XIAOMI);
-        }
-        else//Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¿ï¿½ï¿½Ø¿ï¿½ï¿½ï¿½
-        {
-            if(rc_s0 == 2)
-            {
-                can_rm_cmd_all(0, 0, 0, 0, 0, 0, 0, 0, 0,0,0);
-                //can_xiaomi_cmd_all(CLOSE_XIAOMI);
-            }
-            else if(rc_s0 == 3 | rc_s0 == 1)//ï¿½Ë¶ï¿½Ä£Ê½
-            {
-//                can_cmd_all(0,
-//                            0,
-//                            0,
-//                            0,
-//                            0,
-//                            PITCH_6020_ID2_GIVEN_CURRENT,
-//                            0,
-//                            0,
-//                            0);
-                //can_xiaomi_cmd_all(OPEN_XIAOMI);
-                can_rm_cmd_all(CHASSIS_3508_ID1_GIVEN_CURRENT,
-                               CHASSIS_3508_ID2_GIVEN_CURRENT,
-                               CHASSIS_3508_ID3_GIVEN_CURRENT,
-                               CHASSIS_3508_ID4_GIVEN_CURRENT,
-                               YAW_6020_ID1_GIVEN_CURRENT,
-                               PITCH_6020_ID2_GIVEN_CURRENT,
-                               FRICTION_WHEEL_3510_ID1_GIVEN_CURRENT,
-                               FRICTION_WHEEL_3510_ID2_GIVEN_CURRENT,
-                               SHOOT_2006_ID3_GIVEN_CURRENT,
-                               track_2006_can1_id7_current,
-                               track_2006_can1_id8_current);
-            }
+// void can_sent()
+//{
+ //   while (1)
+  //  {
+        // if (rc_receive_state == RC_OFFLINE || yaw_6020_state == GM6020_DIE || pitch_6020_state == GM6020_DIE)//Ò£¿ØÆ÷ÀëÏß£¬µç»ú¹ýÎÂ±£»¤£»
+        // {
+        //     can_rm_cmd_all(0, 0, 0, 0, 0, 0, 0, 0);
+        //     can_xiaomi_cmd_all(CLOSE_XIAOMI);
+        // }
+        // else
+        // {
+//              switch (RC_attation )
+//              {
+//              case ( 0 )://È«³µ¹Øµç
+//                  {
+//                      can_rm_cmd_all(0, 0, 0, 0, 0, 0, 0, 0);
+//                      can_xiaomi_cmd_all(CLOSE_XIAOMI);
+//                      break;
+//                  }
+//
+//              case ( 1 )://ÔË¶¯Ä£Ê½|Ð¡ÍÓÂÝÄ£Ê½
+//                 {
+//                     can_rm_cmd_all
+//                    (1000,
+//                    1000,
+//                    1000,
+//                    1000,
+//                    6000,
+//                    1000,
+//                    1000,
+//                    1000);
+//
+//
+//               //    can_xiaomi_cmd_all(OPEN_XIAOMI);
+//              //        break;
+//              //    }
+//              //
+//              // default:
+//              //     {
+//              //         can_rm_cmd_all(0, 0, 0, 0, 0, 0, 0, 0);
+//              //         can_xiaomi_cmd_all(CLOSE_XIAOMI);
+//              //         break;
+//              //     }
+//              // }
+//
+//             osDelay(1);
+//
+//     }
+// }
 
-            else//Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý³ï¿½Ê¼ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½Ïµï¿½
-            {
-                can_rm_cmd_all(0, 0, 0, 0, 0, 0, 0, 0, 0,0,0);
-                //can_xiaomi_cmd_all(CLOSE_XIAOMI);
-            }
+//         if (rc_receive_state == RC_OFFLINE | yaw_6020_state == GM6020_DIE | pitch_6020_state == GM6020_DIE)
+//         //????????????????
+//         {
+//             can_xiaomi_cmd_all(CLOSE_XIAOMI);
+//         }
+//         else //?????????????????§á??????
+//         {
+//             if (rc_s0 == 2)//             {
 
-        }
+//                 can_xiaomi_cmd_all(CLOSE_XIAOMI);
+//             }
+//             else if (rc_s0 == 3 | rc_s0 == 1) //?????
+//             {
+//                 can_xiaomi_cmd_all(OPEN_XIAOMI);
+//             }
+//
+//             else //??????????????§Ý??????????
+//             {
+//                 can_xiaomi_cmd_all(CLOSE_XIAOMI);
+//             }
+//         }
+//
+//         osDelay(1);
+//     }
 
-        osDelay(1);
-
-
-    if( rc_receive_state == RC_OFFLINE | yaw_6020_state == GM6020_DIE | pitch_6020_state == GM6020_DIE)//Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß£ï¿½È«ï¿½ï¿½ï¿½Ïµï¿½
-    {
-        can_xiaomi_cmd_all(CLOSE_XIAOMI);
-    }
-    else//Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¿ï¿½ï¿½Ø¿ï¿½ï¿½ï¿½
-    {
-        if(rc_s0 == 2)
-        {
-            can_xiaomi_cmd_all(CLOSE_XIAOMI);
-        }
-        else if(rc_s0 == 3 | rc_s0 == 1)//ï¿½Ë¶ï¿½Ä£Ê½
-        {
-
-            can_xiaomi_cmd_all(OPEN_XIAOMI);
-
-        }
-
-        else//Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý³ï¿½Ê¼ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½Ïµï¿½
-        {
-            can_xiaomi_cmd_all(CLOSE_XIAOMI);
-        }
-
-    }
-
-    osDelay(1);
-    }
-}
-
-
-void can_rm_cmd_all(int16_t chassis_id1 , int16_t chassis_id2 ,
-                    int16_t chassis_id3 , int16_t chassis_id4 ,
-                    int16_t yaw_id1 , int16_t pitch_id2 ,
-                    int16_t friction_wheel_id1, int16_t friction_wheel_id2 ,
-                    int16_t shoot_id3, int16_t track_id7, int16_t track_id8 )
-{
-    CAN2_cmd_pitch(pitch_id2,0,0,0);
-    CAN2_cmd_friction_wheels(friction_wheel_id1,friction_wheel_id2,0,0);
-    CAN1_cmd_chassis(chassis_id1, chassis_id2, chassis_id3, chassis_id4);
-    CAN1_cmd_yaw(yaw_id1,shoot_id3,track_id7,track_id8);
-
-}
-
-void can_xiaomi_cmd_all(uint8_t key)
-{
-    if(key == OPEN_XIAOMI)
-    {
-        CanComm_SendControlPara(xiaomimotors[1]);
-        CanComm_SendControlPara(xiaomimotors[0]);
-    } else
-    {
-        struct xiaomi_motor xiaomi_STOP ;
-        xiaomi_STOP.can_channel = 0x01 ;//can1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½
-
-        xiaomi_STOP.can_id = 0x01 ;
-        CanComm_SendControlPara(xiaomi_STOP);
-        xiaomi_STOP.can_id = 0x02 ;
-        CanComm_SendControlPara(xiaomi_STOP);
-        xiaomi_STOP.can_id = 0x03 ;
-        CanComm_SendControlPara(xiaomi_STOP);
-        xiaomi_STOP.can_id = 0x04 ;
-        CanComm_SendControlPara(xiaomi_STOP);
-
-        xiaomi_STOP.can_channel = 0x02 ;//can1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½
-
-        xiaomi_STOP.can_id = 0x01 ;
-        CanComm_SendControlPara(xiaomi_STOP);
-        xiaomi_STOP.can_id = 0x02 ;
-        CanComm_SendControlPara(xiaomi_STOP);
-        xiaomi_STOP.can_id = 0x03 ;
-        CanComm_SendControlPara(xiaomi_STOP);
-        xiaomi_STOP.can_id = 0x04 ;
-        CanComm_SendControlPara(xiaomi_STOP);
-
-
-
-
-
-    }
-
-
-}
+//
+//
+// void can_rm_cmd_all(int16_t chassis_id1, int16_t chassis_id2,
+//                     int16_t chassis_id3, int16_t chassis_id4,
+//                     int16_t yaw_id5,     int16_t track_id6,
+//                     int16_t track_id7,   int16_t shoot_id8)
+// {
+//     CAN1_cmd_chassis(chassis_id1, chassis_id2, chassis_id3, chassis_id4);
+//     CAN1_cmd_yaw(yaw_id5, 0, 0, shoot_id8);
+//     CAN2_cmd_pitch(0,track_id6,track_id7,0);
+// }
+//
+//
 
 
 

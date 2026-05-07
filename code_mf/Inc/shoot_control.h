@@ -23,11 +23,7 @@
 #include "get_rc.h"
 #include "bsp_can.h"
 #include "CAN_receive.h"
-#include "jy61p.h"
 #include "pid.h"
-#include "chassis_motor_control.h"
-#include "gimbal_motor_control.h"
-#include <math.h>
 
 
 
@@ -38,8 +34,8 @@
 #define SHOOT_2006_ID3_SPEED_PID_KI_MAX    2000.0f
 
 
-#define SHOOT_TURN_ON_SPEED  2000
-#define SHOOT_TURN_OFF_SPEED (-5000)
+#define SHOOT_TURN_ON_SPEED  5040
+#define SHOOT_TURN_OFF_SPEED (-9000)
 
 #define SHOOT_SPEED_CHECK_TIME 100
 #define SHOOT_STOP_CHECK_SPEED 100  //+-500,卡弹检测速度区间，区间内都视为卡弹
@@ -47,6 +43,8 @@
 
 
 #define SHOOT_MAX_STOP_TIME 500 //ms
+
+extern pid_type_def shoot_2006_ID3_speed_pid;
 
 void shoot_speed_compute();
 void shoot_stop_check();

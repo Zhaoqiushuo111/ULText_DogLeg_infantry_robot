@@ -1,7 +1,7 @@
 {
 	"InstallScripts" : 
 	[
-		"W:/Github demo/ULText_DogLeg_infantry_robot/cmake-build-debug/cmake_install.cmake"
+		"W:/A_my_demo/JiaJun-s-demo/Bio_inspired_Quadruped_Robot/cmake-build-debug/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

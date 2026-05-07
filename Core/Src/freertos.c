@@ -53,14 +53,6 @@ osThreadId uart_sent_testHandle;
 osThreadId get_rc_taskHandle;
 osThreadId can_sent_taskHandle;
 osThreadId err_dec_taskHandle;
-osThreadId chassisMotorTasHandle;
-osThreadId gimbalTaskHandle;
-osThreadId shoot_con_taskHandle;
-osThreadId refereeHandle;
-osThreadId servoHandle;
-osThreadId imu_dataHandle;
-osThreadId aim_uart_taskHandle;
-osThreadId xiaomi_taskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -73,14 +65,6 @@ void uart_sent_debug(void const * argument);
 void get_rc(void const * argument);
 void can_sent(void const * argument);
 void error_detection(void const * argument);
-void chassis_motor_control(void const * argument);
-void gimbal_motor_control(void const * argument);
-void shoot_control(void const * argument);
-void refree_task(void const * argument);
-void servo_task(void const * argument);
-void IMU_DATA_GET(void const * argument);
-void aim_uart_sent(void const * argument);
-void xiaomi_motor_task(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -150,38 +134,6 @@ void MX_FREERTOS_Init(void) {
   /* definition and creation of err_dec_task */
   osThreadDef(err_dec_task, error_detection, osPriorityIdle, 0, 128);
   err_dec_taskHandle = osThreadCreate(osThread(err_dec_task), NULL);
-
-  /* definition and creation of chassisMotorTas */
-  osThreadDef(chassisMotorTas, chassis_motor_control, osPriorityIdle, 0, 128);
-  chassisMotorTasHandle = osThreadCreate(osThread(chassisMotorTas), NULL);
-
-  /* definition and creation of gimbalTask */
-  osThreadDef(gimbalTask, gimbal_motor_control, osPriorityIdle, 0, 128);
-  gimbalTaskHandle = osThreadCreate(osThread(gimbalTask), NULL);
-
-  /* definition and creation of shoot_con_task */
-  osThreadDef(shoot_con_task, shoot_control, osPriorityIdle, 0, 128);
-  shoot_con_taskHandle = osThreadCreate(osThread(shoot_con_task), NULL);
-
-  /* definition and creation of referee */
-  osThreadDef(referee, refree_task, osPriorityIdle, 0, 128);
-  refereeHandle = osThreadCreate(osThread(referee), NULL);
-
-  /* definition and creation of servo */
-  osThreadDef(servo, servo_task, osPriorityIdle, 0, 128);
-  servoHandle = osThreadCreate(osThread(servo), NULL);
-
-  /* definition and creation of imu_data */
-  osThreadDef(imu_data, IMU_DATA_GET, osPriorityIdle, 0, 128);
-  imu_dataHandle = osThreadCreate(osThread(imu_data), NULL);
-
-  /* definition and creation of aim_uart_task */
-  osThreadDef(aim_uart_task, aim_uart_sent, osPriorityIdle, 0, 128);
-  aim_uart_taskHandle = osThreadCreate(osThread(aim_uart_task), NULL);
-
-  /* definition and creation of xiaomi_task */
-  osThreadDef(xiaomi_task, xiaomi_motor_task, osPriorityIdle, 0, 128);
-  xiaomi_taskHandle = osThreadCreate(osThread(xiaomi_task), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -295,150 +247,6 @@ __weak void error_detection(void const * argument)
     osDelay(1);
   }
   /* USER CODE END error_detection */
-}
-
-/* USER CODE BEGIN Header_chassis_motor_control */
-/**
-* @brief Function implementing the chassisMotorTas thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_chassis_motor_control */
-__weak void chassis_motor_control(void const * argument)
-{
-  /* USER CODE BEGIN chassis_motor_control */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END chassis_motor_control */
-}
-
-/* USER CODE BEGIN Header_gimbal_motor_control */
-/**
-* @brief Function implementing the gimbalTask thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_gimbal_motor_control */
-__weak void gimbal_motor_control(void const * argument)
-{
-  /* USER CODE BEGIN gimbal_motor_control */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END gimbal_motor_control */
-}
-
-/* USER CODE BEGIN Header_shoot_control */
-/**
-* @brief Function implementing the shoot_con_task thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_shoot_control */
-__weak void shoot_control(void const * argument)
-{
-  /* USER CODE BEGIN shoot_control */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END shoot_control */
-}
-
-/* USER CODE BEGIN Header_refree_task */
-/**
-* @brief Function implementing the referee thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_refree_task */
-__weak void refree_task(void const * argument)
-{
-  /* USER CODE BEGIN refree_task */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END refree_task */
-}
-
-/* USER CODE BEGIN Header_servo_task */
-/**
-* @brief Function implementing the servo thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_servo_task */
-__weak void servo_task(void const * argument)
-{
-  /* USER CODE BEGIN servo_task */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END servo_task */
-}
-
-/* USER CODE BEGIN Header_IMU_DATA_GET */
-/**
-* @brief Function implementing the imu_data thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_IMU_DATA_GET */
-__weak void IMU_DATA_GET(void const * argument)
-{
-  /* USER CODE BEGIN IMU_DATA_GET */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END IMU_DATA_GET */
-}
-
-/* USER CODE BEGIN Header_aim_uart_sent */
-/**
-* @brief Function implementing the aim_uart_task thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_aim_uart_sent */
-__weak void aim_uart_sent(void const * argument)
-{
-  /* USER CODE BEGIN aim_uart_sent */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END aim_uart_sent */
-}
-
-/* USER CODE BEGIN Header_xiaomi_motor_task */
-/**
-* @brief Function implementing the xiaomi_task thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_xiaomi_motor_task */
-__weak void xiaomi_motor_task(void const * argument)
-{
-  /* USER CODE BEGIN xiaomi_motor_task */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END xiaomi_motor_task */
 }
 
 /* Private application code --------------------------------------------------*/

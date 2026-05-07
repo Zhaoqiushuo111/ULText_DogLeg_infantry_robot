@@ -31,13 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "board_LED.h"
-#include "uart_printf.h"
-#include "uart_sent.h"
-#include "bsp_rc.h"
 #include "remote_control.h"
-#include "auto_aim.h"
-#include <stdbool.h>
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -80,151 +74,15 @@ extern int16_t mouse_press_r ;
 
 
 
-extern int16_t rc_receive_state ;//ң����״̬ 0Ϊ���ߣ�1Ϊ����
-extern uint32_t rc_receive_time ;//ң�������յ����ݵ�ʱ���
+extern int16_t rc_receive_state ;
+extern uint32_t rc_receive_time ;
 
 
-
-extern int16_t yaw_6020_state ;//6020״̬ 0Ϊ����1Ϊ����
-extern int16_t pitch_6020_state ;//6020���״̬ 0Ϊ����1Ϊ����
-
-extern float gimbal_vx ;
-extern float gimbal_vy ;
-
-extern float chassis_vx ;
-extern float chassis_vy ;
-extern float chassis_vround ;
-
-
-extern float yaw_angle_difference ;
-extern float yaw_radian_difference ;
-
-extern uint32_t gyro_time ;
-extern int16_t gyro_state ;
-
-
-//chassis
-extern int16_t CHASSIS_3508_ID1_GIVEN_SPEED ;
-extern int16_t CHASSIS_3508_ID1_GIVEN_CURRENT;
-extern int16_t CHASSIS_3508_ID1_VXY_COMPUTE_SPEED ;
-
-extern int16_t CHASSIS_3508_ID2_GIVEN_SPEED ;
-extern int16_t CHASSIS_3508_ID2_GIVEN_CURRENT;
-extern int16_t CHASSIS_3508_ID2_VXY_COMPUTE_SPEED ;
-
-extern int16_t CHASSIS_3508_ID3_GIVEN_SPEED ;
-extern int16_t CHASSIS_3508_ID3_GIVEN_CURRENT;
-extern int16_t CHASSIS_3508_ID3_VXY_COMPUTE_SPEED ;
-
-extern int16_t CHASSIS_3508_ID4_GIVEN_SPEED ;
-extern int16_t CHASSIS_3508_ID4_GIVEN_CURRENT;
-extern int16_t CHASSIS_3508_ID4_VXY_COMPUTE_SPEED ;
-
-extern float CHASSIS_3508_ALL_COMPUTE_SPEED ;
-
-extern float CHASSIS_FOLLOW_GIMBAL_GIVEN_SPEED ;
-
-    //履带独立驱动
-   extern int16_t track_2006_can1_id7_speed;
-   extern  int16_t track_2006_can1_id8_speed;
-
-    extern int16_t track_2006_can1_id7_current;
-    extern int16_t track_2006_can1_id8_current;
-
-
-extern float beyond_power ;
-
-extern int16_t chassis_power_state ;
-
-//gimbal_vx
-extern float YAW_6020_ID1_GIVEN_SPEED ;
-extern int16_t YAW_6020_ID1_GIVEN_CURRENT ;
-extern float YAW_6020_ID1_GIVEN_ANGLE ;
-
-extern float PITCH_6020_ID2_GIVEN_ANGLE ;
-extern float PITCH_6020_ID2_GIVEN_SPEED ;
-extern int16_t PITCH_6020_ID2_GIVEN_CURRENT ;
-extern float pitch_motor_mean_speed ;
-extern int16_t pitch_motor_speed_last_data [3] ;
-
-//friction wheel
-extern int16_t FRICTION_WHEEL_3510_ID1_GIVEN_SPEED ;
-extern int16_t FRICTION_WHEEL_3510_ID1_GIVEN_CURRENT ;
-
-extern int16_t FRICTION_WHEEL_3510_ID2_GIVEN_SPEED ;
-extern int16_t FRICTION_WHEEL_3510_ID2_GIVEN_CURRENT ;
-
-
-
-//shoot
-extern float SHOOT_2006_ID3_GIVEN_SPEED ;
-extern int16_t SHOOT_2006_ID3_GIVEN_CURRENT ;
-
-extern int16_t robot_level ;
-extern uint32_t robot_level_time ;
-
-extern float robot_max_power ;
-
-extern float send_out_all_speed ;
-
-extern uint32_t servo_time ;
-extern uint32_t servo_rc_time ;
-extern uint32_t servo_state ;
-
-
-extern float gyro[3];
-extern float acce[3];
-extern float temp;
-extern float INS_quat[4] ;
-extern float INS_angle[3] ;
-extern float INS_degree[3] ;
-
-extern float pitch_speed_from_bmi088 ;
-extern float yaw_speed_from_bmi088 ;
-extern float roll_speed_from_bmi088 ;
-
-
-extern float pitch_angle_from_bmi088 ;
-extern float yaw_angle_from_bmi088 ;
-extern float roll_angle_from_bmi088 ;
-
-extern float pitch_radian_from_bmi088 ;
-extern float yaw_radian_from_bmi088 ;
-extern float roll_radian_from_bmi088 ;
-
- extern float roll_speed_from_dm;
- extern float pitch_speed_from_dm;
- extern float yaw_speed_from_dm;
-
- extern float yaw_angle_from_dm ;
- extern float pitch_angle_from_dm;
- extern float roll_angle_from_dm;
-
-extern float YAW_IMU_LAST_ECD ;
-extern float YAW_IMU_LAPS ;
-extern float YAW_IMU_ABSCISSA ;
-
-    extern uint16_t YAW_LAST_ECD;
- extern float YAW_LAPS;
- extern uint16_t YAW_FIN_ECD;
-
-
-extern float yaw_imu_preprocess ;
 
   extern uint8_t uart1_receive_data ;//串口当前接收字节
 
   extern uint32_t auto_aim_com_update_time ;//自瞄通讯时间戳
 
-  extern float auto_aim_los_pitch_angle ;
-  extern float auto_aim_los_yaw_angle ;
-
-   extern float xiaomi_can1_id1_given_angle;
-   extern float xiaomi_can1_id2_given_angle;
-   extern float xiaomi_can1_id1_given_speed;
-   extern float xiaomi_can1_id2_given_speed;
-
- static float xiaomi_can1_id1_init_angle;
- static float xiaomi_can1_id2_init_angle;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/

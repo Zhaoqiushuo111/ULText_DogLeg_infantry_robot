@@ -1,8 +1,8 @@
-# Install script for directory: W:/Github demo/ULText_DogLeg_infantry_robot
+# Install script for directory: W:/A_my_demo/JiaJun-s-demo/Bio_inspired_Quadruped_Robot
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/bubing_RM2025")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/Cboard_Chassis_Sentinel_Robot")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -40,7 +40,7 @@ endif()
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "W:/Github demo/ULText_DogLeg_infantry_robot/cmake-build-debug/install_local_manifest.txt"
+  file(WRITE "W:/A_my_demo/JiaJun-s-demo/Bio_inspired_Quadruped_Robot/cmake-build-debug/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
 if(CMAKE_INSTALL_COMPONENT)
@@ -56,6 +56,6 @@ else()
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "W:/Github demo/ULText_DogLeg_infantry_robot/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "W:/A_my_demo/JiaJun-s-demo/Bio_inspired_Quadruped_Robot/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
